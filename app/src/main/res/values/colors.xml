@@ -6,6 +6,7 @@
     <color name="secondary_app">#D7D7D7</color>
     <color name="red_app">#AA0000</color>
     <color name="seed">#0065FC</color>
+    <color name="primary_chat">#D9E8FF</color>
     <color name="md_theme_light_primary">#0055D6</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#DAE1FF</color>
