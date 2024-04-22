@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">MiniChat</string>
+    <!-- Text -->
     <string name="txt_personalData">Datos Personales</string>
+    <string name="txt_createGroup">Crear Grupo</string>
+    <string name="txt_edit">Editar</string>
+    <string name="txt_add">Agregar</string>
+    <!-- Input -->
     <string name="input_name">Nombre</string>
     <string name="input_email">Correo</string>
     <string name="input_password">Contraseña</string>
+    <string name="input_search">Buscar</string>
+    <!-- Button -->
     <string name="btn_signin">Iniciar Sesión</string>
     <string name="btn_signup">Crear Cuenta</string>
     <string name="btn_back">Regresar</string>
