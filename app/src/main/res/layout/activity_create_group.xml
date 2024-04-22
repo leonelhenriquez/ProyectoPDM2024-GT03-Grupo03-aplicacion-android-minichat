@@ -78,6 +78,7 @@
         android:layout_marginTop="32dp"
         android:text="Carolina Perez"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/inputSearchCG"
         tools:layout_editor_absoluteX="93dp" />
 
@@ -120,6 +121,7 @@
         android:layout_marginTop="24dp"
         android:text="Leonel Messi"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -152,6 +154,7 @@
         android:layout_marginTop="24dp"
         android:text="Cristiano Ronaldo"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -194,8 +197,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="Phill Phoden"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView16"
-        android:textSize="20sp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
