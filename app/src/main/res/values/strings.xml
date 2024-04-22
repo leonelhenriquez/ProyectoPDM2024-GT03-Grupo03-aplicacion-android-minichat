@@ -3,8 +3,11 @@
     <!-- Text -->
     <string name="txt_personalData">Datos Personales</string>
     <string name="txt_createGroup">Crear Grupo</string>
+    <string name="txt_BloquedContacts">Contactos Bloqueados</string>
+    <string name="txt_FriendRequest">Solicitudes de Amistad</string>
     <string name="txt_edit">Editar</string>
     <string name="txt_add">Agregar</string>
+    <string name="txt_unlock">Desbloquear</string>
     <!-- Input -->
     <string name="input_name">Nombre</string>
     <string name="input_email">Correo</string>
