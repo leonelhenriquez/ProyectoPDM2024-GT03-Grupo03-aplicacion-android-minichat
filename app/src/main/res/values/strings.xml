@@ -13,9 +13,11 @@
     <string name="input_email">Correo</string>
     <string name="input_password">Contraseña</string>
     <string name="input_search">Buscar</string>
+    <string name="input_code">Código</string>
     <!-- Button -->
     <string name="btn_signin">Iniciar Sesión</string>
     <string name="btn_signup">Crear Cuenta</string>
     <string name="btn_back">Regresar</string>
     <string name="btn_save">Guardar</string>
+    <string name="btn_next">Siguiente</string>
 </resources>

@@ -45,25 +45,26 @@
             android:layout_height="46dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputCodeA2f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Codigo" />
+                android:hint="@string/input_code" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnNextA2f"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
-            android:text="Siguiente" />
+            android:text="@string/btn_next" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnBackA2f"
             style="@style/Base.Theme.MiniChat.SecondaryButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Regresar" />
+            android:text="@string/btn_back" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

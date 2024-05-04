@@ -26,7 +26,7 @@
         tools:layout_editor_absoluteY="262dp" />
 
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputNameReg"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         tools:layout_editor_absoluteY="324dp" />
 
     <EditText
-        android:id="@+id/inputEmailR"
+        android:id="@+id/inputEmailReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -47,10 +47,10 @@
         android:text="@string/input_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+        app:layout_constraintTop_toBottomOf="@+id/inputNameReg" />
 
     <EditText
-        android:id="@+id/inputPasswordR"
+        android:id="@+id/inputPasswordReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -59,11 +59,11 @@
         android:text="@string/input_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmailR" />
+        app:layout_constraintTop_toBottomOf="@+id/inputEmailReg" />
 
     <!-- Secondary button -->
     <Button
-        android:id="@+id/btnSignupR"
+        android:id="@+id/btnSignUpReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_signup"
@@ -72,7 +72,7 @@
         tools:layout_editor_absoluteY="554dp" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnBackReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -82,6 +82,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignupR" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignUpReg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

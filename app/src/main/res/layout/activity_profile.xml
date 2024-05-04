@@ -55,7 +55,7 @@
         tools:layout_editor_absoluteY="660dp" />
 
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputNameReg"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="49dp"
@@ -68,7 +68,7 @@
         tools:layout_editor_absoluteY="284dp" />
 
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputNameReg"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         tools:layout_editor_absoluteY="354dp" />
 
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputNameReg"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="wrap_content"
