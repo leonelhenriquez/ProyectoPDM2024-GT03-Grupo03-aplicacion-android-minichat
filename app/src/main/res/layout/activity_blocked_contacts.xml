@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BlockedContactsActivity">
 
+    <ImageButton
+        android:id="@+id/imbBackB"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/round_arrow_back_24" />
+
+    <TextView
+        android:id="@+id/txtTittleB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_marginStart="50sp"
+        android:layout_marginEnd="50sp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="@string/txt_BloquedContacts" />
+
+    <ImageButton
+        android:id="@+id/imbMenuB"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="end"
+        android:layout_marginTop="10sp"
+        android:layout_marginEnd="10sp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_more" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerBlockedContacts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp" />
 
 </FrameLayout>

@@ -34,7 +34,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Editar"
@@ -44,7 +44,7 @@
         tools:layout_editor_absoluteY="227dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cambiar contraseña"
@@ -55,7 +55,7 @@
         tools:layout_editor_absoluteY="660dp" />
 
     <EditText
-        android:id="@+id/inputNameReg"
+        android:id="@+id/inputNameReg3"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="49dp"
@@ -68,7 +68,7 @@
         tools:layout_editor_absoluteY="284dp" />
 
     <EditText
-        android:id="@+id/inputNameReg"
+        android:id="@+id/inputNameReg4"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         tools:layout_editor_absoluteY="354dp" />
 
     <EditText
-        android:id="@+id/inputNameReg"
+        android:id="@+id/inputNameReg5"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="295dp"
         android:layout_height="wrap_content"
