@@ -8,80 +8,101 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="178dp"
-        android:layout_height="167dp"
-        android:layout_marginTop="75dp"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_marginTop="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/txtPersonalData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25sp"
         android:text="@string/txt_personalData"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="262dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/inputNameReg"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/input_name"
+        android:hint="@string/input_name"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="324dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPersonalData" />
 
     <EditText
         android:id="@+id/inputEmailReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15sp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="@string/input_email"
+        android:hint="@string/input_email"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputNameReg" />
 
     <EditText
-        android:id="@+id/inputPasswordReg"
+        android:id="@+id/inputUserReg"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15sp"
         android:ems="10"
-        android:inputType="textPassword"
-        android:text="@string/input_password"
+        android:inputType="text"
+        android:hint="@string/input_name"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputEmailReg" />
 
+    <EditText
+        android:id="@+id/inputPasswordReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/input_password"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputUserReg" />
+
     <!-- Secondary button -->
     <Button
         android:id="@+id/btnSignUpReg"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:text="@string/btn_signup"
+        android:layout_marginBottom="15sp"
+        android:hint="@string/btn_signup"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackReg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="554dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnBackReg"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="50sp"
         android:text="@string/btn_back"
+        android:textSize="20sp"
         style="@style/Base.Theme.MiniChat.SecondaryButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUpReg" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

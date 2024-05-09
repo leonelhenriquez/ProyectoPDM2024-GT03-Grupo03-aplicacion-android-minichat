@@ -18,25 +18,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="223dp"
-            android:layout_height="179dp"
+            android:id="@+id/imvLogoA2f"
+            android:layout_width="125sp"
+            android:layout_height="125sp"
             app:srcCompat="@drawable/logo" />
 
         <TextView
-            android:id="@+id/textViewxxx1"
+            android:id="@+id/txtA2f"
             android:layout_width="171dp"
             android:layout_height="89dp"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Doble Factor de Autenticación"
+            android:text="@string/txt_a2f"
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/textViewxxx2"
+            android:id="@+id/txtInstructionA2f"
             android:layout_width="276dp"
             android:layout_height="57dp"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Digite el código enviado a su correo electrónico para validar su identidad"
+            android:text="@string/txt_instruction_a2f"
             android:textAlignment="center"
             android:textSize="12sp" />
 
@@ -48,7 +48,8 @@
                 android:id="@+id/inputCodeA2f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/input_code" />
+                android:hint="@string/input_code"
+                android:textColorHint="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
