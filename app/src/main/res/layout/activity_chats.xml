@@ -146,7 +146,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView11"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -167,7 +167,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView52"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -175,7 +175,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView43"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -183,7 +183,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView44"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -205,7 +205,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView15"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -226,7 +226,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView56"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -234,7 +234,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView47"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -242,7 +242,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView48"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -264,7 +264,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView19"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -285,7 +285,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView50"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -293,7 +293,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView410"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -301,7 +301,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView411"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -323,7 +323,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView112"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -344,7 +344,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView513"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -352,7 +352,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView414"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -360,7 +360,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView415"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -382,7 +382,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView116"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -403,7 +403,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView517"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -411,7 +411,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView418"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -419,7 +419,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView419"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -441,7 +441,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView120"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -462,7 +462,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView521"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -470,7 +470,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView422"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -478,7 +478,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView423"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -500,7 +500,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView124"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -521,7 +521,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView525"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -529,7 +529,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView426"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -537,7 +537,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView427"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -559,7 +559,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView128"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -580,7 +580,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView529"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -588,7 +588,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView430"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -596,7 +596,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView431"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -618,7 +618,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView132"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -639,7 +639,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView533"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -647,7 +647,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView434"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -655,7 +655,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView435"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -677,7 +677,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView136"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -698,7 +698,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView537"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -706,7 +706,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView438"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -714,7 +714,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView439"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
@@ -736,7 +736,7 @@
                     android:paddingBottom="8dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/imageView140"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:layout_marginRight="16dp"
@@ -757,7 +757,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textView541"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
@@ -765,7 +765,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textView442"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hola que tal como estas!! 😁"
@@ -773,7 +773,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/imageView443"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
