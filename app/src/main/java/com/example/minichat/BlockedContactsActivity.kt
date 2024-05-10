@@ -1,7 +1,10 @@
 package com.example.minichat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +20,13 @@ class BlockedContactsActivity : AppCompatActivity() {
         binding = ActivityBlockedContactsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initRecyclerView()
+
+        val btnBack : ImageButton = findViewById(R.id.imbBackB)
+
+        btnBack.setOnClickListener() {
+            val intent = Intent(this, ChatsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initRecyclerView() {
