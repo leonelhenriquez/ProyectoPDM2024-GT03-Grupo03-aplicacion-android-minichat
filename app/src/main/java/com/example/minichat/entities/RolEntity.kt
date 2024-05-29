@@ -18,6 +18,19 @@ class RolEntity : Serializable {
 	@ColumnInfo(name = "descripcion")
 	var descripcion: String? = null
 
+
+	constructor()
+
+	constructor(
+		nombre: String?,
+		descripcion: String?,
+		createdAt: Date?,
+		updatedAt: Date?
+	) {
+		this.nombre = nombre
+		this.descripcion = descripcion
+	}
+
 	constructor(
 		id: Long?,
 		nombre: String?,

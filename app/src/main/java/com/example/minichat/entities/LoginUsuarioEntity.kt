@@ -7,6 +7,7 @@ import java.io.Serializable
 
 @Entity(tableName = "mnt_login_usuario")
 class LoginUsuarioEntity : Serializable{
+	@PrimaryKey()
 	@ColumnInfo(name = "id")
 	var id: Long? = null
 
@@ -15,4 +16,19 @@ class LoginUsuarioEntity : Serializable{
 
 	@ColumnInfo(name = "token")
 	var token: String? = null
+
+	constructor()
+
+	constructor(idUsuario: Long?, token: String?) {
+		this.idUsuario = idUsuario
+		this.token = token
+	}
+
+	constructor(id: Long?, idUsuario: Long?, token: String?) {
+		this.id = id
+		this.idUsuario = idUsuario
+		this.token = token
+	}
+
+
 }
