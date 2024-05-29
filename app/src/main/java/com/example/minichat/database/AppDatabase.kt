@@ -16,6 +16,7 @@ import com.example.minichat.dao.DispositivoVinculadoDao
 import com.example.minichat.dao.DobleFactorUsuarioDao
 import com.example.minichat.dao.FuenteTipograficaDao
 import com.example.minichat.dao.LecturaMensajeDao
+import com.example.minichat.dao.LoginUsuarioDao
 import com.example.minichat.dao.MensajeDao
 import com.example.minichat.dao.OpcionMenuDao
 import com.example.minichat.dao.PerfilDao
@@ -39,6 +40,7 @@ import com.example.minichat.entities.DispositivoVinculadoEntity
 import com.example.minichat.entities.DobleFactorUsuarioEntity
 import com.example.minichat.entities.FuenteTipograficaEntity
 import com.example.minichat.entities.LecturaMensajeEntity
+import com.example.minichat.entities.LoginUsuarioEntity
 import com.example.minichat.entities.MensajeEntity
 import com.example.minichat.entities.OpcionMenuEntity
 import com.example.minichat.entities.PerfilEntity
@@ -78,8 +80,8 @@ import com.example.minichat.entities.UsuarioEntity
   UsuarioChatEntity::class,
   ContactoUsuarioEntity::class,
   ContactoBloqueadoEntity::class,
-], version = 1)
-
+  LoginUsuarioEntity::class,
+], version = 2)
 @TypeConverters(value = [DateConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 	companion object {
@@ -108,6 +110,7 @@ abstract class AppDatabase : RoomDatabase() {
 		}
 	}
 
+	abstract fun loginUsuarioDao(): LoginUsuarioDao
 	abstract fun fuenteTipograficaDao(): FuenteTipograficaDao
 	abstract fun opcionMenuDao(): OpcionMenuDao
 	abstract fun reaccionDao(): ReaccionDao
