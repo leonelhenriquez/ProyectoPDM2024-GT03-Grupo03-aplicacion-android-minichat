@@ -24,35 +24,14 @@
 	<string name="btn_save">Guardar</string>
 	<string name="btn_next">Siguiente</string>
 	<string name="chats">Chats</string>
-    <string name="app_name">MiniChat</string>
-    <!-- Text -->
-    <string name="txt_personalData">Datos Personales</string>
-    <string name="txt_createGroup">Crear Grupo</string>
-    <string name="txt_BloquedContacts">Contactos Bloqueados</string>
-    <string name="txt_FriendRequest">Solicitudes de Amistad</string>
-    <string name="txt_chats">Chats</string>
-    <string name="txt_settings">Configuración</string>
-    <string name="txt_profile">Perfil</string>
-    <string name="txt_request_tray">Bandeja de Solicitudes</string>
-    <string name="txt_changePassword">Cambiar Contraseña</string>
-    <string name="txt_edit">Editar</string>
-    <string name="txt_add">Agregar</string>
-    <string name="txt_unlock">Desbloquear</string>
-    <string name="txt_a2f">Doble Factor de Autenticación</string>
-    <string name="txt_instruction_a2f">Digite el código enviado a su correo electrónico para validar su identidad</string>
-    <!-- Input -->
-    <string name="input_name">Nombre</string>
-    <string name="input_user">Usuario</string>
-    <string name="input_email">Correo</string>
-    <string name="input_bio">Biografia</string>
-    <string name="input_usuario">Usuario</string>
-    <string name="input_password">Contraseña</string>
-    <string name="input_search">Buscar</string>
-    <string name="input_code">Código</string>
-    <!-- Button -->
-    <string name="btn_signin">Iniciar Sesión</string>
-    <string name="btn_signup">Crear Cuenta</string>
-    <string name="btn_back">Regresar</string>
-    <string name="btn_save">Guardar</string>
-    <string name="btn_next">Siguiente</string>
+	<!-- Text -->
+	<string name="txt_chats">Chats</string>
+	<string name="txt_settings">Configuración</string>
+	<string name="txt_profile">Perfil</string>
+	<string name="txt_request_tray">Bandeja de Solicitudes</string>
+	<string name="txt_changePassword">Cambiar Contraseña</string>
+	<!-- Input -->
+	<string name="input_user">Usuario</string>
+	<string name="input_bio">Biografia</string>
+	<!-- Button -->
 </resources>

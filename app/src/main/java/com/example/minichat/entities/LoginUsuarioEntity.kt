@@ -90,7 +90,8 @@ data class LoginUsuarioData(
 
 	@Relation(
 		parentColumn = "idUsuario",
-		entityColumn = "id"
+		entityColumn = "id",
+		entity = UsuarioEntity::class
 	)
 	var usuarioPerfil: UsuarioPerfil? = null,
 )

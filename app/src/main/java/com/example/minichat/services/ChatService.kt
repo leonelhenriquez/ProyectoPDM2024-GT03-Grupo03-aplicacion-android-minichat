@@ -144,6 +144,26 @@ class ChatService : Service(), ChatServiceInterface {
 				Log.v("ChatService[getChats]", jsonObject.toString())
 
 
+				val tipoChatJSONObject = jsonObject.getJSONObject("tipoChat")
+				var tipoChatEntity = TipoChatEntity()
+				try {
+					tipoChatEntity = TipoChatEntity(
+						id = tipoChatJSONObject.getLong("id"),
+						nombre = tipoChatJSONObject.getString("nombre")
+					)
+					db?.tipoChatDao()?.upsert(tipoChatEntity)
+				} catch (e: Exception) {
+				}
+
+				val chatEntity = ChatEntity(
+					id = jsonObject.getLong("id"),
+					uriFoto = null,
+					idTipoChat = tipoChatEntity.id,
+					fechaCreacion = null,
+					updatedAt = null
+				)
+				db?.chatDao()?.upsert(chatEntity)
+
 				val miembrosJsonArrayObject = jsonObject.getJSONArray("miembros")
 				for (j in 0 until miembrosJsonArrayObject.length()) {
 					val miembroJsonObject = miembrosJsonArrayObject.getJSONObject(j)
@@ -185,27 +205,6 @@ class ChatService : Service(), ChatServiceInterface {
 						db?.usuarioChatDao()?.insert(usuarioChatEntity)
 					}
 				}
-
-
-				val tipoChatJSONObject = jsonObject.getJSONObject("tipoChat")
-				var tipoChatEntity = TipoChatEntity()
-				try {
-					tipoChatEntity = TipoChatEntity(
-						id = tipoChatJSONObject.getLong("id"),
-						nombre = tipoChatJSONObject.getString("nombre")
-					)
-					db?.tipoChatDao()?.upsert(tipoChatEntity)
-				} catch (e: Exception) {
-				}
-
-				val chatEntity = ChatEntity(
-					id = jsonObject.getLong("id"),
-					uriFoto = null,
-					idTipoChat = tipoChatEntity.id,
-					fechaCreacion = null,
-					updatedAt = null
-				)
-				db?.chatDao()?.upsert(chatEntity)
 
 				val preferenciasChatsJsonArrayObject = jsonObject.getJSONArray("preferencias")
 				for (j in 0 until preferenciasChatsJsonArrayObject.length()) {
