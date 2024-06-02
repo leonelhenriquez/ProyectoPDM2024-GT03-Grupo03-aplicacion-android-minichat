@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itemProfile"
+        android:title="Perfil" />
+
+    <item
+        android:id="@+id/itemSetting"
+        android:title="Configuración" />
+
+    <item
+        android:id="@+id/itemCreateGroup"
+        android:title="Crear nuevo grupo" />
+
+    <item
+        android:id="@+id/itemBlockedContact"
+        android:title="Contactos bloqueados" />
+
+</menu>
