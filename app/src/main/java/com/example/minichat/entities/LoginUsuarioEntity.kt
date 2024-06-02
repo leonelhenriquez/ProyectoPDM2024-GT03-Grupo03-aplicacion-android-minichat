@@ -1,13 +1,15 @@
 package com.example.minichat.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.example.minichat.Commons.GenericEntity
-import java.io.Serializable
 
-@Entity(tableName = LoginUsuarioEntity.TABLE_NAME,
+@Entity(
+	tableName = LoginUsuarioEntity.TABLE_NAME,
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -25,7 +27,7 @@ import java.io.Serializable
 		)
 	]
 )
-class LoginUsuarioEntity : GenericEntity {
+class LoginUsuarioEntity() : GenericEntity() {
 
 	companion object {
 		const val TABLE_NAME = "mnt_login_usuario"
@@ -51,10 +53,13 @@ class LoginUsuarioEntity : GenericEntity {
 	var tfaPasado: Boolean? = null
 
 
-
-	constructor()
-
-	constructor(idUsuario: Long?, idDispositivo: Long?, token: String?, tfaRequerido: Boolean?, tfaPasado: Boolean?) {
+	constructor(
+		idUsuario: Long?,
+		idDispositivo: Long?,
+		token: String?,
+		tfaRequerido: Boolean?,
+		tfaPasado: Boolean?
+	) : this() {
 		this.idUsuario = idUsuario
 		this.idDispositivo = idDispositivo
 		this.token = token
@@ -62,7 +67,14 @@ class LoginUsuarioEntity : GenericEntity {
 		this.tfaPasado = tfaPasado
 	}
 
-	constructor(id: Long?, idUsuario: Long?, idDispositivo: Long?, token: String?, tfaRequerido: Boolean?, tfaPasado: Boolean?) {
+	constructor(
+		id: Long?,
+		idUsuario: Long?,
+		idDispositivo: Long?,
+		token: String?,
+		tfaRequerido: Boolean?,
+		tfaPasado: Boolean?
+	) : this() {
 		this.id = id
 		this.idUsuario = idUsuario
 		this.idDispositivo = idDispositivo
@@ -70,6 +82,16 @@ class LoginUsuarioEntity : GenericEntity {
 		this.tfaRequerido = tfaRequerido
 		this.tfaPasado = tfaPasado
 	}
-
-
 }
+
+data class LoginUsuarioData(
+	@Embedded
+	var loginUsuarioEntity: LoginUsuarioEntity? = null,
+
+	@Relation(
+		parentColumn = "idUsuario",
+		entityColumn = "id",
+		entity = UsuarioEntity::class
+	)
+	var usuarioPerfil: UsuarioPerfil? = null,
+)

@@ -1,6 +1,7 @@
 package com.example.minichat.datasource
 
 import android.content.Context
+import android.util.Log
 import com.example.minichat.http.RequestInstance
 import com.example.minichat.http.RequestMethod
 import com.google.gson.JsonObject
@@ -28,13 +29,17 @@ class RestDataSourceUsuario {
 				RequestMethod.POST,
 				"/usuario"
 			)
-			.addJsonBody(jsonObject.toString())
-			.addAcceptHeaderJson()
-			.executeAsync(
-				context
-			) { responseBody ->
-				callback(responseBody)
-			}
+				.addJsonBody(jsonObject.toString())
+				.addAcceptHeaderJson()
+				.executeAsync(
+					context
+				) { response ->
+					try {
+						callback(response)
+					} catch (e: Exception) {
+						Log.e("RestDataSourceUsuario", e.toString())
+					}
+				}
 		}
 	}
 }

@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_rol_opcion_menu",
+@Entity(
+	tableName = "mnt_rol_opcion_menu",
 	foreignKeys = [
 		ForeignKey(
 			entity = OpcionMenuEntity::class,
@@ -25,7 +26,7 @@ import java.util.Date
 		)
 	]
 )
-class RolOpcionMenuEntity : Serializable {
+class RolOpcionMenuEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -42,9 +43,7 @@ class RolOpcionMenuEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
-
-	constructor(idOpcionMenu: Long?, idRol: Long?, createdAt: Date?, updatedAt: Date?) {
+	constructor(idOpcionMenu: Long?, idRol: Long?, createdAt: Date?, updatedAt: Date?) : this() {
 		this.idOpcionMenu = idOpcionMenu
 		this.idRol = idRol
 		this.createdAt = createdAt
@@ -57,7 +56,7 @@ class RolOpcionMenuEntity : Serializable {
 		idRol: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.idOpcionMenu = idOpcionMenu
 		this.idRol = idRol

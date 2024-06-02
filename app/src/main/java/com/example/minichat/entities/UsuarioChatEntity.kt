@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_ usuario_chat",
+@Entity(
+	tableName = "mnt_usuario_chat",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -32,7 +33,7 @@ import java.util.Date
 		)
 	]
 )
-class UsuarioChatEntity : Serializable {
+class UsuarioChatEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -52,9 +53,21 @@ class UsuarioChatEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
+	/*@Relation(
+		parentColumn = "idUsuario",
+		entityColumn = "id",
+		entity = UsuarioEntity::class
+	)
+	var usuario: UsuarioEntity? = null*/
 
-	constructor(idUsuario: Long?, idChat: Long?, idRol: Long?, createdAt: Date?, updatedAt: Date?) {
+
+	constructor(
+		idUsuario: Long?,
+		idChat: Long?,
+		idRol: Long?,
+		createdAt: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.idUsuario = idUsuario
 		this.idChat = idChat
 		this.idRol = idRol
@@ -69,7 +82,7 @@ class UsuarioChatEntity : Serializable {
 		idRol: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.idUsuario = idUsuario
 		this.idChat = idChat

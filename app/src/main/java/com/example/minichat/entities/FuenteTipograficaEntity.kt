@@ -3,10 +3,10 @@ package com.example.minichat.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 
 @Entity(tableName = "ctl_fuente_tipografica")
-class FuenteTipograficaEntity : Serializable {
+class FuenteTipograficaEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -14,7 +14,7 @@ class FuenteTipograficaEntity : Serializable {
 	@ColumnInfo(name = "nombre")
 	var nombre: String? = null
 
-	constructor(id: Long?, nombre: String?) {
+	constructor(id: Long?, nombre: String?) : this() {
 		this.id = id
 		this.nombre = nombre
 	}

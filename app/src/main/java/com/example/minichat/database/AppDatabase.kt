@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.minichat.Commons.DateConverter
 import com.example.minichat.dao.ArchivoMensajeDao
 import com.example.minichat.dao.ChatDao
@@ -56,32 +55,34 @@ import com.example.minichat.entities.TipoChatEntity
 import com.example.minichat.entities.UsuarioChatEntity
 import com.example.minichat.entities.UsuarioEntity
 
-@Database(entities = [
-  FuenteTipograficaEntity::class,
-  OpcionMenuEntity::class,
-  ReaccionEntity::class,
-  RolEntity::class,
-  TipoArchivoEntity::class,
-  TipoChatEntity::class,
-  UsuarioEntity::class,
-  ChatEntity::class,
-  PreferenciaNotificacionEntity::class,
-  PreferenciasUsuarioEntity::class,
-  DispositivoVinculadoEntity::class,
-  PerfilEntity::class,
-  DobleFactorUsuarioEntity::class,
-  CodigoGeneradoUsuarioEntity::class,
-  RolOpcionMenuEntity::class,
-  MensajeEntity::class,
-  LecturaMensajeEntity::class,
-  ArchivoMensajeEntity::class,
-  ReaccionMensajeEntity::class,
-  PreferenciaChatEntity::class,
-  UsuarioChatEntity::class,
-  ContactoUsuarioEntity::class,
-  ContactoBloqueadoEntity::class,
-  LoginUsuarioEntity::class,
-], version = 5)
+@Database(
+	entities = [
+		FuenteTipograficaEntity::class,
+		OpcionMenuEntity::class,
+		ReaccionEntity::class,
+		RolEntity::class,
+		TipoArchivoEntity::class,
+		TipoChatEntity::class,
+		UsuarioEntity::class,
+		ChatEntity::class,
+		PreferenciaNotificacionEntity::class,
+		PreferenciasUsuarioEntity::class,
+		DispositivoVinculadoEntity::class,
+		PerfilEntity::class,
+		DobleFactorUsuarioEntity::class,
+		CodigoGeneradoUsuarioEntity::class,
+		RolOpcionMenuEntity::class,
+		MensajeEntity::class,
+		LecturaMensajeEntity::class,
+		ArchivoMensajeEntity::class,
+		ReaccionMensajeEntity::class,
+		PreferenciaChatEntity::class,
+		UsuarioChatEntity::class,
+		ContactoUsuarioEntity::class,
+		ContactoBloqueadoEntity::class,
+		LoginUsuarioEntity::class,
+	], version = 7
+)
 @TypeConverters(value = [DateConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 	companion object {
@@ -104,9 +105,6 @@ abstract class AppDatabase : RoomDatabase() {
 		}
 
 		private val DB_CALLBACK: Callback = object : Callback() {
-			override fun onCreate(db: SupportSQLiteDatabase) {
-				super.onCreate(db)
-			}
 		}
 	}
 
