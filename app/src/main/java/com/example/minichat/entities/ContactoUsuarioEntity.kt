@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_contacto_usuario",
+@Entity(
+	tableName = "mnt_contacto_usuario",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -25,7 +26,7 @@ import java.util.Date
 		)
 	]
 )
-class ContactoUsuarioEntity : Serializable {
+class ContactoUsuarioEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -45,9 +46,13 @@ class ContactoUsuarioEntity : Serializable {
 	@ColumnInfo(name = "updated_at")
 	var updatedAt: Date? = null
 
-	constructor()
-
-	constructor(aceptado: Boolean?, idUsuario: Long?, idContacto: Long?, createdAt: Date?, updatedAt: Date?) {
+	constructor(
+		aceptado: Boolean?,
+		idUsuario: Long?,
+		idContacto: Long?,
+		createdAt: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.aceptado = aceptado
 		this.idUsuario = idUsuario
 		this.idContacto = idContacto
@@ -62,7 +67,7 @@ class ContactoUsuarioEntity : Serializable {
 		idContacto: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.aceptado = aceptado
 		this.idUsuario = idUsuario

@@ -13,28 +13,52 @@ import com.example.minichat.adapter.ChatsAdapter
 import com.example.minichat.databinding.ActivityChatsBinding
 
 class ChatsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityChatsBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityChatsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        initRecyclerView()
+	private lateinit var binding: ActivityChatsBinding
+	private var manager: LinearLayoutManager? = null
+	private val db = AppDatabase.getDatabase(this)
 
-        val txtTrayRequest : TextView = findViewById(R.id.txtTrayRequest)
-        txtTrayRequest.setOnClickListener() {
-            val intent = Intent(this, FriendRequestActivity::class.java)
-            startActivity(intent)
-        }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		binding = ActivityChatsBinding.inflate(layoutInflater)
+		setContentView(binding.root)
+		startService(Intent(this, ChatService::class.java))
 
-        val toolbar : Toolbar = findViewById(R.id.toolbarMain)
-        setSupportActionBar(toolbar)
-    }
+		manager = LinearLayoutManager(this)
+		binding.recyclerChats.layoutManager = manager
 
+		val userLogin = db.loginUsuarioDao().getLoginUsuario()
+
+		binding.textViewNameProfile.text = userLogin?.usuarioPerfil?.usuario?.nombre
+
+		//this.initRecyclerView(ArrayList<ChatWithData>())
+		loadChats()
+	}
+
+	private fun loadChats() {
+		val listChats = db.chatDao().all()
+
+		val arrayListChats = ArrayList<ChatWithData>()
+
+		for (chat in (listChats ?: listOf()).iterator()) {
+			arrayListChats.add(chat)
+		}
+
+		initRecyclerView(arrayListChats)
+	}
+
+	private fun initRecyclerView(chatList: ArrayList<ChatWithData>) {
+
+		val loginUsuarioEntity = db.loginUsuarioDao().getLoginUsuario()
+		for (chat in chatList) {
+			Log.d("ChatListLog", chat.toString())
+		}
+		binding.recyclerChats.adapter = ChatsAdapter(chatList, loginUsuarioEntity)
+
+	}
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.itemProfile -> Profile()
@@ -85,4 +109,12 @@ class ChatsActivity : AppCompatActivity() {
     fun onItemSelected(blockedContacts: Chats) {
         Toast.makeText(this, "Leido", Toast.LENGTH_SHORT).show()
     }
+        val txtTrayRequest : TextView = findViewById(R.id.txtTrayRequest)
+        txtTrayRequest.setOnClickListener() {
+            val intent = Intent(this, FriendRequestActivity::class.java)
+            startActivity(intent)
+        }
+
+        val toolbar : Toolbar = findViewById(R.id.toolbarMain)
+        setSupportActionBar(toolbar)
 }

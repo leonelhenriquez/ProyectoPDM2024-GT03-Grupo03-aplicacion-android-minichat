@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
 	fun checkAccount() {
 		val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
 		if (loginUsuario != null) {
-			if (loginUsuario.tfaPasado == true) {
+			if (loginUsuario.loginUsuarioEntity?.tfaPasado == true) {
 				val intent = Intent(this, ChatsActivity::class.java)
 				startActivity(intent)
 			} else {

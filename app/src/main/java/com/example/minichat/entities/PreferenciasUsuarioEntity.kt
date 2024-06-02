@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_preferencias_usuario",
+@Entity(
+	tableName = "mnt_preferencias_usuario",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -18,7 +19,7 @@ import java.util.Date
 		)
 	]
 )
-class PreferenciasUsuarioEntity : Serializable {
+class PreferenciasUsuarioEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -38,9 +39,13 @@ class PreferenciasUsuarioEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
-
-	constructor(temaOscuro: Boolean?, idFuente: Long?, idUsuario: Long?, createdAt: Date?, updatedAt: Date?) {
+	constructor(
+		temaOscuro: Boolean?,
+		idFuente: Long?,
+		idUsuario: Long?,
+		createdAt: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.temaOscuro = temaOscuro
 		this.idFuente = idFuente
 		this.idUsuario = idUsuario
@@ -55,7 +60,7 @@ class PreferenciasUsuarioEntity : Serializable {
 		idUsuario: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.temaOscuro = temaOscuro
 		this.idFuente = idFuente

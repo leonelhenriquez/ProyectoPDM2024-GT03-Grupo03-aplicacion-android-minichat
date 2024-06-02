@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_dispositivo_vinculado",
+@Entity(
+	tableName = "mnt_dispositivo_vinculado",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -18,7 +19,7 @@ import java.util.Date
 		)
 	]
 )
-class DispositivoVinculadoEntity : Serializable {
+class DispositivoVinculadoEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -38,9 +39,14 @@ class DispositivoVinculadoEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
 
-	constructor(nombreDispositivo: String?, token: String?, idUsuario: Long?, fecha: Date?, updatedAt: Date?) {
+	constructor(
+		nombreDispositivo: String?,
+		token: String?,
+		idUsuario: Long?,
+		fecha: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.nombreDispositivo = nombreDispositivo
 		this.token = token
 		this.idUsuario = idUsuario
@@ -55,7 +61,7 @@ class DispositivoVinculadoEntity : Serializable {
 		idUsuario: Long?,
 		fecha: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.nombreDispositivo = nombreDispositivo
 		this.token = token

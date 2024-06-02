@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_preferencia_notificacion",
+@Entity(
+	tableName = "mnt_preferencia_notificacion",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -18,7 +19,7 @@ import java.util.Date
 		)
 	]
 )
-class PreferenciaNotificacionEntity : Serializable {
+class PreferenciaNotificacionEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -47,9 +48,17 @@ class PreferenciaNotificacionEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
 
-	constructor(silenciadas: Boolean?, activoHorarioNotificacion: Boolean?, horaInicio: Date?, horaFin: Date?, fondoColor: String?, idUsuario: Long?, createdAt: Date?, updatedAt: Date?) {
+	constructor(
+		silenciadas: Boolean?,
+		activoHorarioNotificacion: Boolean?,
+		horaInicio: Date?,
+		horaFin: Date?,
+		fondoColor: String?,
+		idUsuario: Long?,
+		createdAt: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.silenciadas = silenciadas
 		this.activoHorarioNotificacion = activoHorarioNotificacion
 		this.horaInicio = horaInicio
@@ -70,7 +79,7 @@ class PreferenciaNotificacionEntity : Serializable {
 		idUsuario: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.silenciadas = silenciadas
 		this.activoHorarioNotificacion = activoHorarioNotificacion

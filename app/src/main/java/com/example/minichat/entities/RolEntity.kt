@@ -3,11 +3,11 @@ package com.example.minichat.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
 @Entity(tableName = "ctl_rol")
-class RolEntity : Serializable {
+class RolEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -19,14 +19,12 @@ class RolEntity : Serializable {
 	var descripcion: String? = null
 
 
-	constructor()
-
 	constructor(
 		nombre: String?,
 		descripcion: String?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.nombre = nombre
 		this.descripcion = descripcion
 	}
@@ -37,7 +35,7 @@ class RolEntity : Serializable {
 		descripcion: String?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.nombre = nombre
 		this.descripcion = descripcion

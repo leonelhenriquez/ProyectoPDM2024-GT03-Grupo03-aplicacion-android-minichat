@@ -6,7 +6,8 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.minichat.Commons.GenericEntity
 
-@Entity(tableName = ArchivoMensajeEntity.TABLE_NAME,
+@Entity(
+	tableName = ArchivoMensajeEntity.TABLE_NAME,
 	foreignKeys = [
 		ForeignKey(
 			entity = MensajeEntity::class,
@@ -24,7 +25,7 @@ import com.example.minichat.Commons.GenericEntity
 		)
 	]
 )
-class ArchivoMensajeEntity : GenericEntity {
+class ArchivoMensajeEntity() : GenericEntity() {
 
 	companion object {
 		const val TABLE_NAME = "mnt_archivo_mensaje"
@@ -49,14 +50,13 @@ class ArchivoMensajeEntity : GenericEntity {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: String? = null
 
-	constructor()
 	constructor(
 		urlArchivo: String?,
 		idMensaje: Long?,
 		idTipoArchivo: Long?,
 		createdAt: String?,
 		updatedAt: String?
-	) {
+	) : this() {
 		this.urlArchivo = urlArchivo
 		this.idMensaje = idMensaje
 		this.idTipoArchivo = idTipoArchivo
@@ -71,7 +71,7 @@ class ArchivoMensajeEntity : GenericEntity {
 		idTipoArchivo: Long?,
 		createdAt: String?,
 		updatedAt: String?
-	) {
+	) : this() {
 		this.id = id
 		this.urlArchivo = urlArchivo
 		this.idMensaje = idMensaje

@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_perfil",
+@Entity(
+	tableName = "mnt_perfil",
 	foreignKeys = [
 		ForeignKey(
 			entity = UsuarioEntity::class,
@@ -18,7 +19,7 @@ import java.util.Date
 		)
 	]
 )
-class PerfilEntity : Serializable {
+class PerfilEntity() : GenericEntity() {
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null
@@ -44,7 +45,6 @@ class PerfilEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
 
 	constructor(
 		nombre: String?,
@@ -54,7 +54,7 @@ class PerfilEntity : Serializable {
 		idUsuario: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.nombre = nombre
 		this.biografia = biografia
 		this.foto = foto
@@ -73,7 +73,7 @@ class PerfilEntity : Serializable {
 		idUsuario: Long?,
 		createdAt: Date?,
 		updatedAt: Date?
-	) {
+	) : this() {
 		this.id = id
 		this.nombre = nombre
 		this.biografia = biografia

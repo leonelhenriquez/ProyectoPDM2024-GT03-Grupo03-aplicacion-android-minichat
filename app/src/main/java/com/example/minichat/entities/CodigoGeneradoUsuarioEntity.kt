@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 import java.util.Date
 
-@Entity(tableName = "mnt_codigo_generado_usuario",
+@Entity(
+	tableName = "mnt_codigo_generado_usuario",
 	foreignKeys = [
 		ForeignKey(
 			entity = DobleFactorUsuarioEntity::class,
@@ -18,7 +19,7 @@ import java.util.Date
 		)
 	]
 )
-class CodigoGeneradoUsuarioEntity : Serializable {
+class CodigoGeneradoUsuarioEntity() : GenericEntity() {
 
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
@@ -39,9 +40,14 @@ class CodigoGeneradoUsuarioEntity : Serializable {
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
 
-	constructor()
 
-	constructor(codigo: String?, idDobleFactorUsuario: Long?, fechaExpiracion: Date?, fechaCreacion: Date?, updatedAt: Date?) {
+	constructor(
+		codigo: String?,
+		idDobleFactorUsuario: Long?,
+		fechaExpiracion: Date?,
+		fechaCreacion: Date?,
+		updatedAt: Date?
+	) : this() {
 		codigo.also { this.codigo = it }
 		this.idDobleFactorUsuario = idDobleFactorUsuario
 		this.fechaExpiracion = fechaExpiracion
@@ -49,7 +55,14 @@ class CodigoGeneradoUsuarioEntity : Serializable {
 		this.updatedAt = updatedAt
 	}
 
-	constructor(id: Long?, codigo: String?, idDobleFactorUsuario: Long?, fechaExpiracion: Date?, fechaCreacion: Date?, updatedAt: Date?) {
+	constructor(
+		id: Long?,
+		codigo: String?,
+		idDobleFactorUsuario: Long?,
+		fechaExpiracion: Date?,
+		fechaCreacion: Date?,
+		updatedAt: Date?
+	) : this() {
 		this.id = id
 		this.codigo = codigo
 		this.idDobleFactorUsuario = idDobleFactorUsuario
