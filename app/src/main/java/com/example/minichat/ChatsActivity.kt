@@ -1,16 +1,20 @@
 package com.example.minichat
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.minichat.adapter.ChatsAdapter
+import com.example.minichat.database.AppDatabase
 import com.example.minichat.databinding.ActivityChatsBinding
+import com.example.minichat.entities.ChatWithData
+import com.example.minichat.services.ChatService
 
 class ChatsActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityChatsBinding
@@ -32,6 +36,17 @@ class ChatsActivity : AppCompatActivity() {
 
 		//this.initRecyclerView(ArrayList<ChatWithData>())
 		loadChats()
+
+
+		val txtTrayRequest: TextView = findViewById(R.id.txtTrayRequest)
+		txtTrayRequest.setOnClickListener {
+			val intent = Intent(this, FriendRequestActivity::class.java)
+			startActivity(intent)
+		}
+
+		val toolbar: Toolbar = findViewById(R.id.toolbar)
+		setSupportActionBar(toolbar)
+
 	}
 
 	private fun loadChats() {
@@ -55,66 +70,47 @@ class ChatsActivity : AppCompatActivity() {
 		binding.recyclerChats.adapter = ChatsAdapter(chatList, loginUsuarioEntity)
 
 	}
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.itemProfile -> Profile()
-            R.id.itemSetting -> Setting()
-            R.id.itemCreateGroup -> CreateGroup()
-            R.id.itemBlockedContact -> BlockedContact()
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
-    fun Profile() {
-        Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, ProfileActivity::class.java)
-        startActivity(intent)
-    }
+	override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+		menuInflater.inflate(R.menu.menu, menu)
+		return super.onCreateOptionsMenu(menu)
+	}
 
-    fun Setting() {
-        Toast.makeText(this, "Configuración", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, SettingActivity::class.java)
-        startActivity(intent)
-    }
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		when (item.itemId) {
+			R.id.itemProfile -> Profile()
+			R.id.itemSetting -> Setting()
+			R.id.itemCreateGroup -> CreateGroup()
+			R.id.itemBlockedContact -> BlockedContact()
+		}
+		return super.onOptionsItemSelected(item)
+	}
 
-    fun CreateGroup() {
-        Toast.makeText(this, "Crear Grupo", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, CreateGroupActivity::class.java)
-        startActivity(intent)
-    }
+	fun Profile() {
+		Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
+		val intent = Intent(this, ProfileActivity::class.java)
+		startActivity(intent)
+	}
 
-    fun BlockedContact  () {
-        Toast.makeText(this, "Contactos Bloqueados", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, BlockedContactsActivity::class.java)
-        startActivity(intent)
-    }
+	fun Setting() {
+		Toast.makeText(this, "Configuración", Toast.LENGTH_SHORT).show()
+		val intent = Intent(this, SettingActivity::class.java)
+		startActivity(intent)
+	}
 
-    private fun initRecyclerView() {
-        val manager = LinearLayoutManager(this)
-//        val decoration = DividerItemDecoration(this, manager.orientation)
+	fun CreateGroup() {
+		Toast.makeText(this, "Crear Grupo", Toast.LENGTH_SHORT).show()
+		val intent = Intent(this, CreateGroupActivity::class.java)
+		startActivity(intent)
+	}
 
-        binding.recyclerChats.layoutManager = manager
-        binding.recyclerChats.adapter = ChatsAdapter(ChatsProvider.chatsList) { chats ->
-            onItemSelected(
-                chats
-            )
-        }
-//        binding.recyclerBlockedContacts.addItemDecoration(decoration)
-    }
+	fun BlockedContact() {
+		Toast.makeText(this, "Contactos Bloqueados", Toast.LENGTH_SHORT).show()
+		val intent = Intent(this, BlockedContactsActivity::class.java)
+		startActivity(intent)
+	}
 
-    fun onItemSelected(blockedContacts: Chats) {
-        Toast.makeText(this, "Leido", Toast.LENGTH_SHORT).show()
-    }
-        val txtTrayRequest : TextView = findViewById(R.id.txtTrayRequest)
-        txtTrayRequest.setOnClickListener() {
-            val intent = Intent(this, FriendRequestActivity::class.java)
-            startActivity(intent)
-        }
-
-        val toolbar : Toolbar = findViewById(R.id.toolbarMain)
-        setSupportActionBar(toolbar)
+	fun onItemSelected(blockedContacts: Chats) {
+		Toast.makeText(this, "Leido", Toast.LENGTH_SHORT).show()
+	}
 }
