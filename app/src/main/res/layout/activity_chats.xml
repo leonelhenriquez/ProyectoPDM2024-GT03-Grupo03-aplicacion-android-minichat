@@ -37,7 +37,7 @@
 									android:layout_height="42dp"
 									android:layout_marginRight="16dp"
 									android:scaleType="fitCenter"
-									android:src="@drawable/foto_perfil"
+									android:src="@drawable/default_avatar"
 									app:riv_border_color="#333333"
 									app:riv_border_width="0dip"
 									app:riv_corner_radius="42dip"

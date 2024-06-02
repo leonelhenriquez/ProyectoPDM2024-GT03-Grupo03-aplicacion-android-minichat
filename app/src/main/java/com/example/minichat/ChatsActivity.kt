@@ -2,6 +2,8 @@ package com.example.minichat
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -20,6 +22,7 @@ class ChatsActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityChatsBinding
 	private var manager: LinearLayoutManager? = null
 	private val db = AppDatabase.getDatabase(this)
+	private val handler = Handler(Looper.getMainLooper())
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -113,4 +116,22 @@ class ChatsActivity : AppCompatActivity() {
 	fun onItemSelected(blockedContacts: Chats) {
 		Toast.makeText(this, "Leido", Toast.LENGTH_SHORT).show()
 	}
+
+	override fun onResume() {
+		super.onResume()
+		handler.post(loadChatsRunnable)
+	}
+
+	override fun onPause() {
+		super.onPause()
+		handler.removeCallbacks(loadChatsRunnable)
+	}
+
+	private val loadChatsRunnable = object : Runnable {
+		override fun run() {
+			loadChats()
+			handler.postDelayed(this, 1000 * 1) // Vuelve a ejecutar después de N segundos
+		}
+	}
+
 }
