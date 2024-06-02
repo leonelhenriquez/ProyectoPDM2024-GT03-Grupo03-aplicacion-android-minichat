@@ -2,12 +2,16 @@ package com.example.minichat.services
 
 import android.app.Service
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import com.example.minichat.database.AppDatabase
 import com.example.minichat.datasource.RestDataSourceChat
+import com.example.minichat.datasource.RestDataSourcePerfil
 import com.example.minichat.entities.ChatEntity
 import com.example.minichat.entities.MensajeEntity
+import com.example.minichat.entities.PerfilEntity
 import com.example.minichat.entities.PreferenciaChatEntity
 import com.example.minichat.entities.TipoChatEntity
 import com.example.minichat.entities.UsuarioChatEntity
@@ -25,6 +29,8 @@ class ChatService : Service(), ChatServiceInterface {
 
 	private var db: AppDatabase? = null
 
+	private val handler = Handler(Looper.getMainLooper())
+
 	override fun onBind(intent: Intent): IBinder? {
 		Log.v("ChatService", "Service binded")
 		return null
@@ -34,14 +40,18 @@ class ChatService : Service(), ChatServiceInterface {
 		Log.v("ChatService", "Service started")
 		super.onCreate()
 		this.getChats()
+		this.getPerfiles()
+		this.getMessagesChats()
 		this.dbInit()
 		this.wsIniSocketIo()
+		handler.post(loadDataRunnable)
 	}
 
 	override fun onDestroy() {
 		Log.v("ChatService", "Service destroyed")
 		super.onDestroy()
 		this.chatServiceSocketIo?.disconnect()
+		this.handler.removeCallbacks(loadDataRunnable)
 	}
 
 	private fun dbInit() {
@@ -82,15 +92,8 @@ class ChatService : Service(), ChatServiceInterface {
 
 	override fun observeNewMessage() {
 		this.chatServiceSocketIo?.on("new-message") { args ->
-			Log.v("ChatService[observeNewMessage]", args[0].toString())
-		}
-
-	}
-
-	override fun observeNewReaction() {
-		this.chatServiceSocketIo?.on("new-reaction") { args ->
 			try {
-				Log.v("ChatService[observeNewReaction]", args[0].toString())
+				Log.v("ChatService[observeNewMessage]", args[0].toString())
 
 				val message = args[0].toString()
 				val messageJsonObject = JSONObject(message)
@@ -122,6 +125,17 @@ class ChatService : Service(), ChatServiceInterface {
 				Log.e("ChatService[observeNewReaction]", e.toString())
 			}
 		}
+
+	}
+
+	override fun observeNewReaction() {
+		this.chatServiceSocketIo?.on("new-reaction") { args ->
+			try {
+				Log.v("ChatService[observeNewReaction]", args[0].toString())
+			} catch (e: Exception) {
+				Log.e("ChatService[observeNewReaction]", e.toString())
+			}
+		}
 	}
 
 	override fun observeJoinedRoom() {
@@ -130,7 +144,7 @@ class ChatService : Service(), ChatServiceInterface {
 		}
 	}
 
-	fun getChats() {
+	private fun getChats() {
 		val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
 		RestDataSourceChat.chats(
 			this,
@@ -250,5 +264,94 @@ class ChatService : Service(), ChatServiceInterface {
 		}
 	}
 
+	fun getMessagesChats() {
+		try {
+
+			val chats = db?.chatDao()?.getChats()
+			val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+
+			if (chats != null) {
+				for (chat in chats) {
+					RestDataSourceChat.mensajesChats(
+						this,
+						chat.id,
+						loginUsuario?.loginUsuarioEntity?.token ?: ""
+					) { response ->
+						val jsonArrayJSONObject = JSONArray(response)
+						for (i in 0 until jsonArrayJSONObject.length()) {
+							val jsonObject = jsonArrayJSONObject.getJSONObject(i)
+
+							val mensajeEntity = MensajeEntity(
+								id = jsonObject.getLong("id"),
+								mensaje = jsonObject.getString("mensaje"),
+								fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+									jsonObject.getString("fechaHora")
+								),
+								idUsuario = jsonObject.getLong("idUsuario"),
+								idChat = jsonObject.getLong("idChat"),
+								updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+									jsonObject.getString("updatedAt")
+								)
+							)
+							db?.mensajeDao()?.upsert(mensajeEntity)
+						}
+					}
+				}
+			}
+		} catch (e: Exception) {
+		}
+	}
+
+	fun getPerfiles() {
+		try {
+			val usuarios = db?.usuarioDao()?.getUsuarios()
+			val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+
+			if (usuarios != null) {
+				for (usuario in usuarios) {
+					if (usuario.id != null) {
+						RestDataSourcePerfil.getPerfilUsuario(
+							this,
+							usuario.id,
+							loginUsuario?.loginUsuarioEntity?.token
+						) { response ->
+
+							if (!response.isEmpty()) {
+
+								val perfilJSONObject = JSONObject(response)
+
+								val perfilEntity = PerfilEntity(
+									id = perfilJSONObject.getLong("id"),
+									nombre = perfilJSONObject.getString("nombre"),
+									biografia = perfilJSONObject.getString("biografia"),
+									foto = perfilJSONObject.getString("foto"),
+									correo = perfilJSONObject.getString("correo"),
+									idUsuario = perfilJSONObject.getLong("idUsuario"),
+									createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+										perfilJSONObject.getString("createdAt")
+									),
+									updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+										perfilJSONObject.getString("updatedAt")
+									)
+								)
+
+								db?.perfilDao()?.upsert(perfilEntity)
+							}
+						}
+					}
+				}
+			}
+		} catch (e: Exception) {
+		}
+	}
+
+	private val loadDataRunnable = object : Runnable {
+		override fun run() {
+			getChats()
+			getPerfiles()
+			getMessagesChats()
+			handler.postDelayed(this, 1000 * 5) // Vuelve a ejecutar después de N segundos
+		}
+	}
 
 }

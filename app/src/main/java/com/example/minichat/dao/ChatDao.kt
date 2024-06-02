@@ -13,4 +13,7 @@ interface ChatDao : GenericDAO<ChatEntity> {
 
 	@Query("SELECT * FROM mnt_chat")
 	fun all(): List<ChatWithData>?
+
+	@Query("SELECT * FROM mnt_chat")
+	fun getChats(): List<ChatEntity>
 }
