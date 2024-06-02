@@ -15,12 +15,27 @@ class UsuarioEntity : Serializable{
 	@ColumnInfo(name = "nombre")
 	var nombre: String? = null
 
-	@ColumnInfo(name = "contra")
-	var contra: String? = null
-
 	@ColumnInfo(name = "createdAt")
 	var createdAt: Date? = null
 
 	@ColumnInfo(name = "updatedAt")
 	var updatedAt: Date? = null
+
+
+	constructor()
+
+	constructor(nombre: String?, createdAt: Date?, updatedAt: Date?) {
+		this.nombre = nombre
+		this.createdAt = createdAt
+		this.updatedAt = updatedAt
+	}
+
+	constructor(id: Long?, nombre: String?, createdAt: Date?, updatedAt: Date?) {
+		this.id = id
+		this.nombre = nombre
+		this.createdAt = createdAt
+		this.updatedAt = updatedAt
+	}
+
+
 }

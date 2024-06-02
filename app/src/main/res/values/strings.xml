@@ -13,6 +13,7 @@
     <!-- Input -->
     <string name="input_name">Nombre</string>
     <string name="input_email">Correo</string>
+    <string name="input_usuario">Usuario</string>
     <string name="input_password">Contraseña</string>
     <string name="input_search">Buscar</string>
     <string name="input_code">Código</string>

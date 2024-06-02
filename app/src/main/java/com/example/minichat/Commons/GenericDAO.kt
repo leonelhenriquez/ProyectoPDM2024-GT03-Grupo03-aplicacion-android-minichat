@@ -3,6 +3,7 @@ package com.example.minichat.Commons
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Update
+import androidx.room.Upsert
 
 interface GenericDAO<T> {
 	@Insert
@@ -13,4 +14,7 @@ interface GenericDAO<T> {
 
 	@Update
 	fun update(t: T)
+
+	@Upsert
+	fun upsert(t: T)
 }

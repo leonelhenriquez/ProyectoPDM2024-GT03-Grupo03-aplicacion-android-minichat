@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import com.example.minichat.Commons.GenericEntity
 
-@Entity(tableName = "mnt_archivo_mensaje",
+@Entity(tableName = ArchivoMensajeEntity.TABLE_NAME,
 	foreignKeys = [
 		ForeignKey(
 			entity = MensajeEntity::class,
@@ -24,7 +24,12 @@ import java.io.Serializable
 		)
 	]
 )
-class ArchivoMensajeEntity : Serializable{
+class ArchivoMensajeEntity : GenericEntity {
+
+	companion object {
+		const val TABLE_NAME = "mnt_archivo_mensaje"
+	}
+
 	@PrimaryKey(autoGenerate = true)
 	@ColumnInfo(name = "id")
 	var id: Long? = null

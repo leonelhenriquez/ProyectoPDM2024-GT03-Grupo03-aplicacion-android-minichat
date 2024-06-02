@@ -81,7 +81,7 @@ import com.example.minichat.entities.UsuarioEntity
   ContactoUsuarioEntity::class,
   ContactoBloqueadoEntity::class,
   LoginUsuarioEntity::class,
-], version = 2)
+], version = 5)
 @TypeConverters(value = [DateConverter::class])
 abstract class AppDatabase : RoomDatabase() {
 	companion object {
