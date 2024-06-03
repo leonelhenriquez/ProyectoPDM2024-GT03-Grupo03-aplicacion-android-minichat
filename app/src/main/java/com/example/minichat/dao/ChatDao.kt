@@ -8,12 +8,15 @@ import com.example.minichat.entities.ChatWithData
 
 @Dao
 interface ChatDao : GenericDAO<ChatEntity> {
-	@Query("SELECT * FROM mnt_chat WHERE id = :id")
-	fun getById(id: Long): ChatEntity?
+  @Query("SELECT * FROM mnt_chat WHERE id = :id")
+  fun getById(id: Long): ChatEntity?
 
-	@Query("SELECT * FROM mnt_chat")
-	fun all(): List<ChatWithData>?
+  @Query("SELECT * FROM mnt_chat")
+  fun all(): List<ChatWithData>?
 
-	@Query("SELECT * FROM mnt_chat")
-	fun getChats(): List<ChatEntity>
+  @Query("SELECT * FROM mnt_chat")
+  fun getChats(): List<ChatEntity>
+
+  @Query("SELECT * FROM mnt_chat WHERE id = :id")
+  fun getChatById(id: Long): ChatWithData
 }

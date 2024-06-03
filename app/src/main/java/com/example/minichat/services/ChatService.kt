@@ -2,6 +2,7 @@ package com.example.minichat.services
 
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -25,333 +26,431 @@ import java.text.SimpleDateFormat
 
 class ChatService : Service(), ChatServiceInterface {
 
-	private var chatServiceSocketIo: Socket? = null
+  private var chatServiceSocketIo: Socket? = null
 
-	private var db: AppDatabase? = null
+  private var db: AppDatabase? = null
 
-	private val handler = Handler(Looper.getMainLooper())
+  private val handler = Handler(Looper.getMainLooper())
 
-	override fun onBind(intent: Intent): IBinder? {
-		Log.v("ChatService", "Service binded")
-		return null
-	}
+  private val binder = ChatServiceBinder()
 
-	override fun onCreate() {
-		Log.v("ChatService", "Service started")
-		super.onCreate()
-		this.getChats()
-		this.getPerfiles()
-		this.getMessagesChats()
-		this.dbInit()
-		this.wsIniSocketIo()
-		handler.post(loadDataRunnable)
-	}
+  private val clientObserversWebsocket: ArrayList<ObserversWebsocket> = arrayListOf()
 
-	override fun onDestroy() {
-		Log.v("ChatService", "Service destroyed")
-		super.onDestroy()
-		this.chatServiceSocketIo?.disconnect()
-		this.handler.removeCallbacks(loadDataRunnable)
-	}
+  inner class ChatServiceBinder : Binder() {
+    fun getService(): ChatService = this@ChatService
 
-	private fun dbInit() {
-		this.db = AppDatabase.getDatabase(this)
-	}
+    fun setObserversWebsocket(observersWebsocket: ObserversWebsocket) {
+      clientObserversWebsocket.add(observersWebsocket)
+    }
 
-	private fun wsIniSocketIo() {
-		val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
+    fun removeObserversWebsocket(observersWebsocket: ObserversWebsocket) {
+      clientObserversWebsocket.remove(observersWebsocket)
+    }
+  }
 
-		val okHttpClient = OkHttpClient
-			.Builder()
-			.addInterceptor { chain ->
-				val originalRequest = chain.request()
-				val requestWithHeaders = originalRequest.newBuilder()
-					.addHeader("Authorization", loginUsuario?.loginUsuarioEntity?.token ?: "")
-					.build()
-				chain.proceed(requestWithHeaders)
-			}
-			.build()
+  override fun onBind(intent: Intent): IBinder {
+    Log.v("ChatService", "Service binded")
+    return binder
+  }
 
-		IO.setDefaultOkHttpWebSocketFactory(okHttpClient)
-		IO.setDefaultOkHttpCallFactory(okHttpClient)
-		this.chatServiceSocketIo = IO.socket("https://pdm.h130.dev")
-		this.chatServiceSocketIo?.connect()
+  override fun onCreate() {
+    Log.v("ChatService", "Service started")
+    super.onCreate()
+    this.dbInit()
+    this.getChats()
+    this.getPerfiles()
+    this.getMessagesChats()
+    this.wsIniSocketIo()
+    handler.post(loadDataRunnable)
 
-		this.chatServiceSocketIo?.on(Socket.EVENT_CONNECT) {
-			Log.v("ChatService[wsIniSocketIo]", "Conexión abierta")
-		}
+    try {
+      for (observer in clientObserversWebsocket) {
+        callBackgroundService {
+          observer.observeNewMessage()
+        }
+      }
+    } catch (e: Exception) {
+      Log.e("ChatService[onCreate]", e.toString())
+    }
+  }
 
-		this.observeNewMessage()
-		this.observeNewReaction()
-		this.observeJoinedRoom()
-	}
+  override fun onDestroy() {
+    Log.v("ChatService", "Service destroyed")
+    super.onDestroy()
+    this.chatServiceSocketIo?.disconnect()
+    this.handler.removeCallbacks(loadDataRunnable)
+  }
 
-	override fun sendMessage(message: String) {
-		this.chatServiceSocketIo?.emit("send-message", message)
-	}
+  private fun dbInit() {
+    this.db = AppDatabase.getDatabase(this)
+  }
 
-	override fun observeNewMessage() {
-		this.chatServiceSocketIo?.on("new-message") { args ->
-			try {
-				Log.v("ChatService[observeNewMessage]", args[0].toString())
+  private fun wsIniSocketIo() {
+    val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
 
-				val message = args[0].toString()
-				val messageJsonObject = JSONObject(message)
-				val messageEntity = MensajeEntity(
-					id = messageJsonObject.getLong("id"),
-					mensaje = messageJsonObject.getString("mensaje"),
-					fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-						messageJsonObject.getString(
-							"fechaHora"
-						)
-					),
-					idUsuario = messageJsonObject.getLong("idUsuario"),
-					idChat = messageJsonObject.getLong("idChat"),
-					updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-						messageJsonObject.getString(
-							"updatedAt"
-						)
-					)
-				)
+    val okHttpClient = OkHttpClient
+      .Builder()
+      .addInterceptor { chain ->
+        val originalRequest = chain.request()
+        val requestWithHeaders = originalRequest.newBuilder()
+          .addHeader("Authorization", loginUsuario?.loginUsuarioEntity?.token ?: "")
+          .addHeader("Content-Type", "application/json")
+          .addHeader("Accept", "application/json")
+          .build()
+        chain.proceed(requestWithHeaders)
+      }
+      .build()
 
-				val usuarioEntity = UsuarioEntity(
-					id = messageJsonObject.getLong("usuario.id"),
-					nombre = messageJsonObject.getString("usuario.nombre"),
-				)
+    IO.setDefaultOkHttpWebSocketFactory(okHttpClient)
+    IO.setDefaultOkHttpCallFactory(okHttpClient)
+    this.chatServiceSocketIo = IO.socket("https://pdm.h130.dev")
+    this.chatServiceSocketIo?.connect()
 
-				db?.usuarioDao()?.upsert(usuarioEntity)
-				db?.mensajeDao()?.upsert(messageEntity)
-			} catch (e: Exception) {
-				Log.e("ChatService[observeNewReaction]", e.toString())
-			}
-		}
+    this.chatServiceSocketIo?.on(Socket.EVENT_CONNECT) {
+      Log.v("ChatService[wsIniSocketIo]", "Conexión abierta")
+    }
 
-	}
+    this.observeNewMessage()
+    this.observeNewReaction()
+    this.observeJoinedRoom()
+  }
 
-	override fun observeNewReaction() {
-		this.chatServiceSocketIo?.on("new-reaction") { args ->
-			try {
-				Log.v("ChatService[observeNewReaction]", args[0].toString())
-			} catch (e: Exception) {
-				Log.e("ChatService[observeNewReaction]", e.toString())
-			}
-		}
-	}
+  override fun sendMessage(message: MensajeEntity) {
 
-	override fun observeJoinedRoom() {
-		this.chatServiceSocketIo?.on("joined-room") { args ->
-			Log.v("ChatService[observeJoinedRoom]", args[0].toString())
-		}
-	}
+    val messageJsonObject = JSONObject()
+    messageJsonObject.put("idChat", message.idChat)
+    messageJsonObject.put("idUsuario", message.idUsuario)
+    messageJsonObject.put("mensaje", message.mensaje)
 
-	private fun getChats() {
-		val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
-		RestDataSourceChat.chats(
-			this,
-			loginUsuario?.loginUsuarioEntity?.id ?: 0,
-			loginUsuario?.loginUsuarioEntity?.token ?: ""
-		) { response ->
-			val jsonArrayJSONObject = JSONArray(response)
-			for (i in 0 until jsonArrayJSONObject.length()) {
-				val jsonObject = jsonArrayJSONObject.getJSONObject(i)
+    val messageJson = messageJsonObject.toString()
+    Log.v("ChatService[sendMessage]", messageJson)
 
-				Log.v("ChatService[getChats]", jsonObject.toString())
+    this.chatServiceSocketIo?.emit("send-message", messageJson)
+
+    this.loadData()
+
+  }
+
+  override fun observeNewMessage() {
+    this.chatServiceSocketIo?.on("new-message") { args ->
+
+      loadData()
+
+      try {
+        Log.v("ChatService[observeNewMessage]", args[0].toString())
+
+        val message = args[0].toString()
+
+        Log.v("ChatService[observeNewMessage]", message)
+
+        val jsonObject = JSONObject(message)
+        val messageJsonObject = jsonObject.getJSONObject("message")
+        val messageEntity = MensajeEntity(
+          id = messageJsonObject.getLong("id"),
+          mensaje = messageJsonObject.getString("mensaje"),
+          fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+            messageJsonObject.getString(
+              "fechaHora"
+            )
+          ),
+          idUsuario = messageJsonObject.getLong("idUsuario"),
+          idChat = messageJsonObject.getLong("idChat"),
+          updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+            messageJsonObject.getString(
+              "updatedAt"
+            )
+          )
+        )
+
+        val usuarioEntity = UsuarioEntity(
+          id = messageJsonObject.getLong("usuario.id"),
+          nombre = messageJsonObject.getString("usuario.nombre"),
+        )
+
+        db?.usuarioDao()?.upsert(usuarioEntity)
+        db?.mensajeDao()?.upsert(messageEntity)
+      } catch (e: Exception) {
+        e.printStackTrace()
+        Log.e("ChatService[observeNewMessage]", e.toString())
+      }
+
+      try {
+        for (observer in clientObserversWebsocket) {
+          callBackgroundService {
+            observer.observeNewMessage()
+          }
+        }
+      } catch (e: Exception) {
+        e.printStackTrace()
+        Log.e("ChatService[observeNewMessage]", e.toString())
+      }
+    }
+
+  }
+
+  override fun observeNewReaction() {
+    this.chatServiceSocketIo?.on("new-reaction") { args ->
+      try {
+        Log.v("ChatService[observeNewReaction]", args[0].toString())
+
+        for (observer in clientObserversWebsocket) {
+          callBackgroundService {
+            observer.observeNewReaction()
+          }
+        }
+      } catch (e: Exception) {
+        Log.e("ChatService[observeNewReaction]", e.toString())
+      }
+    }
+  }
+
+  override fun observeJoinedRoom() {
+    this.chatServiceSocketIo?.on("joined-room") { args ->
+      try {
+        Log.v("ChatService[observeJoinedRoom]", args[0].toString())
+
+        for (observer in clientObserversWebsocket) {
+          callBackgroundService {
+            observer.observeJoinedRoom()
+          }
+        }
+      } catch (e: Exception) {
+        Log.e("ChatService[observeJoinedRoom]", e.toString())
+      }
+    }
+  }
+
+  private fun getChats() {
+    val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
+    RestDataSourceChat.chats(
+      this,
+      loginUsuario?.loginUsuarioEntity?.idUsuario ?: 0,
+      loginUsuario?.loginUsuarioEntity?.token ?: ""
+    ) { response ->
+      val jsonArrayJSONObject = JSONArray(response)
+      for (i in 0 until jsonArrayJSONObject.length()) {
+        val jsonObject = jsonArrayJSONObject.getJSONObject(i)
+
+        Log.v("ChatService[getChats]", jsonObject.toString())
 
 
-				val tipoChatJSONObject = jsonObject.getJSONObject("tipoChat")
-				var tipoChatEntity = TipoChatEntity()
-				try {
-					tipoChatEntity = TipoChatEntity(
-						id = tipoChatJSONObject.getLong("id"),
-						nombre = tipoChatJSONObject.getString("nombre")
-					)
-					db?.tipoChatDao()?.upsert(tipoChatEntity)
-				} catch (e: Exception) {
-				}
+        val tipoChatJSONObject = jsonObject.getJSONObject("tipoChat")
+        var tipoChatEntity = TipoChatEntity()
+        try {
+          tipoChatEntity = TipoChatEntity(
+            id = tipoChatJSONObject.getLong("id"),
+            nombre = tipoChatJSONObject.getString("nombre")
+          )
+          db?.tipoChatDao()?.upsert(tipoChatEntity)
+        } catch (e: Exception) {
+        }
 
-				val chatEntity = ChatEntity(
-					id = jsonObject.getLong("id"),
-					uriFoto = null,
-					idTipoChat = tipoChatEntity.id,
-					fechaCreacion = null,
-					updatedAt = null
-				)
-				db?.chatDao()?.upsert(chatEntity)
+        val chatEntity = ChatEntity(
+          id = jsonObject.getLong("id"),
+          uriFoto = null,
+          idTipoChat = tipoChatEntity.id,
+          fechaCreacion = null,
+          updatedAt = null
+        )
+        db?.chatDao()?.upsert(chatEntity)
 
-				val miembrosJsonArrayObject = jsonObject.getJSONArray("miembros")
-				for (j in 0 until miembrosJsonArrayObject.length()) {
-					val miembroJsonObject = miembrosJsonArrayObject.getJSONObject(j)
+        val miembrosJsonArrayObject = jsonObject.getJSONArray("miembros")
+        for (j in 0 until miembrosJsonArrayObject.length()) {
+          val miembroJsonObject = miembrosJsonArrayObject.getJSONObject(j)
 
-					val usuarioEntity = UsuarioEntity(
-						id = miembroJsonObject.getLong("id_usuario"),
-						nombre = miembroJsonObject.getJSONObject("usuario").getString("nombre"),
-						createdAt = null,
-						updatedAt = null
-					)
+          val usuarioEntity = UsuarioEntity(
+            id = miembroJsonObject.getLong("id_usuario"),
+            nombre = miembroJsonObject.getJSONObject("usuario").getString("nombre"),
+            createdAt = null,
+            updatedAt = null
+          )
 
-					val userChat =
-						db?.usuarioChatDao()?.getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
+          val userChat =
+            db?.usuarioChatDao()?.getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
 
-					var usuarioChatEntity: UsuarioChatEntity? = null
-					if (userChat?.id != null) {
-						usuarioChatEntity = UsuarioChatEntity(
-							id = userChat.id,
-							idUsuario = usuarioEntity.id,
-							idChat = jsonObject.getLong("id"),
-							idRol = null,
-							createdAt = null,
-							updatedAt = null
-						)
-					} else {
-						usuarioChatEntity = UsuarioChatEntity(
-							idUsuario = usuarioEntity.id,
-							idChat = jsonObject.getLong("id"),
-							idRol = null,
-							createdAt = null,
-							updatedAt = null
-						)
-					}
+          var usuarioChatEntity: UsuarioChatEntity? = null
+          if (userChat?.id != null) {
+            usuarioChatEntity = UsuarioChatEntity(
+              id = userChat.id,
+              idUsuario = usuarioEntity.id,
+              idChat = jsonObject.getLong("id"),
+              idRol = null,
+              createdAt = null,
+              updatedAt = null
+            )
+          } else {
+            usuarioChatEntity = UsuarioChatEntity(
+              idUsuario = usuarioEntity.id,
+              idChat = jsonObject.getLong("id"),
+              idRol = null,
+              createdAt = null,
+              updatedAt = null
+            )
+          }
 
-					db?.usuarioDao()?.upsert(usuarioEntity)
-					if (usuarioChatEntity.id != null) {
-						db?.usuarioChatDao()?.upsert(usuarioChatEntity)
-					} else {
-						db?.usuarioChatDao()?.insert(usuarioChatEntity)
-					}
-				}
+          db?.usuarioDao()?.upsert(usuarioEntity)
+          if (usuarioChatEntity.id != null) {
+            db?.usuarioChatDao()?.upsert(usuarioChatEntity)
+          } else {
+            db?.usuarioChatDao()?.insert(usuarioChatEntity)
+          }
+        }
 
-				val preferenciasChatsJsonArrayObject = jsonObject.getJSONArray("preferencias")
-				for (j in 0 until preferenciasChatsJsonArrayObject.length()) {
+        val preferenciasChatsJsonArrayObject = jsonObject.getJSONArray("preferencias")
+        for (j in 0 until preferenciasChatsJsonArrayObject.length()) {
 
-					try {
-						val preferenciaChatJsonObject = preferenciasChatsJsonArrayObject.getJSONObject(j)
+          try {
+            val preferenciaChatJsonObject = preferenciasChatsJsonArrayObject.getJSONObject(j)
 
-						val preferenciaChatEntity = PreferenciaChatEntity(
-							id = preferenciaChatJsonObject.getLong("id"),
-							nombre = preferenciaChatJsonObject.getString("nombre"),
-							fondoColor = preferenciaChatJsonObject.getString("fondo_color"),
-							idUsuario = preferenciaChatJsonObject.getLong("id_usuario"),
-							idChat = chatEntity.id,
-							createdAt = null,
-							updatedAt = null
-						)
+            val preferenciaChatEntity = PreferenciaChatEntity(
+              id = preferenciaChatJsonObject.getLong("id"),
+              nombre = preferenciaChatJsonObject.getString("nombre"),
+              fondoColor = preferenciaChatJsonObject.getString("fondo_color"),
+              idUsuario = preferenciaChatJsonObject.getLong("id_usuario"),
+              idChat = chatEntity.id,
+              createdAt = null,
+              updatedAt = null
+            )
 
-						db?.preferenciaChatDao()?.upsert(preferenciaChatEntity)
-					} catch (e: Exception) {
-						Log.e("ChatService[getChats][preferenciaChatEntity]", e.toString())
-					}
-				}
+            db?.preferenciaChatDao()?.upsert(preferenciaChatEntity)
+          } catch (e: Exception) {
+            Log.e("ChatService[getChats][preferenciaChatEntity]", e.toString())
+          }
+        }
 
-				val mensajesJsonArrayObject = jsonObject.getJSONArray("mensajes")
-				for (k in 0 until mensajesJsonArrayObject.length()) {
-					val mensajeJsonObject = mensajesJsonArrayObject.getJSONObject(k)
+        val mensajesJsonArrayObject = jsonObject.getJSONArray("mensajes")
+        for (k in 0 until mensajesJsonArrayObject.length()) {
+          val mensajeJsonObject = mensajesJsonArrayObject.getJSONObject(k)
 
-					val mensajeEntity = MensajeEntity(
-						id = mensajeJsonObject.getLong("id"),
-						mensaje = mensajeJsonObject.getString("mensaje"),
-						fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-							mensajeJsonObject.getString("fechaHora")
-						),
-						idUsuario = mensajeJsonObject.getLong("idUsuario"),
-						idChat = mensajeJsonObject.getLong("idChat"),
-						updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-							mensajeJsonObject.getString("updatedAt")
-						)
-					)
-					db?.mensajeDao()?.upsert(mensajeEntity)
-				}
-			}
-		}
-	}
+          val mensajeEntity = MensajeEntity(
+            id = mensajeJsonObject.getLong("id"),
+            mensaje = mensajeJsonObject.getString("mensaje"),
+            fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+              mensajeJsonObject.getString("fechaHora")
+            ),
+            idUsuario = mensajeJsonObject.getLong("idUsuario"),
+            idChat = mensajeJsonObject.getLong("idChat"),
+            updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+              mensajeJsonObject.getString("updatedAt")
+            )
+          )
+          db?.mensajeDao()?.upsert(mensajeEntity)
+        }
+      }
+    }
+  }
 
-	fun getMessagesChats() {
-		try {
+  fun getMessagesChats() {
+    try {
 
-			val chats = db?.chatDao()?.getChats()
-			val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+      val chats = db?.chatDao()?.getChats()
+      val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
 
-			if (chats != null) {
-				for (chat in chats) {
-					RestDataSourceChat.mensajesChats(
-						this,
-						chat.id,
-						loginUsuario?.loginUsuarioEntity?.token ?: ""
-					) { response ->
-						val jsonArrayJSONObject = JSONArray(response)
-						for (i in 0 until jsonArrayJSONObject.length()) {
-							val jsonObject = jsonArrayJSONObject.getJSONObject(i)
+      if (chats != null) {
+        for (chat in chats) {
+          RestDataSourceChat.mensajesChats(
+            this,
+            chat.id,
+            loginUsuario?.loginUsuarioEntity?.token ?: ""
+          ) { response ->
+            val jsonArrayJSONObject = JSONArray(response)
+            for (i in 0 until jsonArrayJSONObject.length()) {
+              val jsonObject = jsonArrayJSONObject.getJSONObject(i)
 
-							val mensajeEntity = MensajeEntity(
-								id = jsonObject.getLong("id"),
-								mensaje = jsonObject.getString("mensaje"),
-								fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-									jsonObject.getString("fechaHora")
-								),
-								idUsuario = jsonObject.getLong("idUsuario"),
-								idChat = jsonObject.getLong("idChat"),
-								updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-									jsonObject.getString("updatedAt")
-								)
-							)
-							db?.mensajeDao()?.upsert(mensajeEntity)
-						}
-					}
-				}
-			}
-		} catch (e: Exception) {
-		}
-	}
+              val mensajeEntity = MensajeEntity(
+                id = jsonObject.getLong("id"),
+                mensaje = jsonObject.getString("mensaje"),
+                fechaHora = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+                  jsonObject.getString("fechaHora")
+                ),
+                idUsuario = jsonObject.getLong("idUsuario"),
+                idChat = jsonObject.getLong("idChat"),
+                updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+                  jsonObject.getString("updatedAt")
+                )
+              )
+              db?.mensajeDao()?.upsert(mensajeEntity)
 
-	fun getPerfiles() {
-		try {
-			val usuarios = db?.usuarioDao()?.getUsuarios()
-			val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+              for (observer in clientObserversWebsocket) {
+                callBackgroundService {
+                  observer.observeNewMessage()
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (e: Exception) {
+    }
+  }
 
-			if (usuarios != null) {
-				for (usuario in usuarios) {
-					if (usuario.id != null) {
-						RestDataSourcePerfil.getPerfilUsuario(
-							this,
-							usuario.id,
-							loginUsuario?.loginUsuarioEntity?.token
-						) { response ->
+  fun getPerfiles() {
+    try {
+      val usuarios = db?.usuarioDao()?.getUsuarios()
+      val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
 
-							if (!response.isEmpty()) {
+      if (usuarios != null) {
+        for (usuario in usuarios) {
+          if (usuario.id != null) {
+            RestDataSourcePerfil.getPerfilUsuario(
+              this,
+              usuario.id,
+              loginUsuario?.loginUsuarioEntity?.token
+            ) { response ->
 
-								val perfilJSONObject = JSONObject(response)
+              if (!response.isEmpty()) {
 
-								val perfilEntity = PerfilEntity(
-									id = perfilJSONObject.getLong("id"),
-									nombre = perfilJSONObject.getString("nombre"),
-									biografia = perfilJSONObject.getString("biografia"),
-									foto = perfilJSONObject.getString("foto"),
-									correo = perfilJSONObject.getString("correo"),
-									idUsuario = perfilJSONObject.getLong("idUsuario"),
-									createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-										perfilJSONObject.getString("createdAt")
-									),
-									updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-										perfilJSONObject.getString("updatedAt")
-									)
-								)
+                val perfilJSONObject = JSONObject(response)
 
-								db?.perfilDao()?.upsert(perfilEntity)
-							}
-						}
-					}
-				}
-			}
-		} catch (e: Exception) {
-		}
-	}
+                val perfilEntity = PerfilEntity(
+                  id = perfilJSONObject.getLong("id"),
+                  nombre = perfilJSONObject.getString("nombre"),
+                  biografia = perfilJSONObject.getString("biografia"),
+                  foto = perfilJSONObject.getString("foto"),
+                  correo = perfilJSONObject.getString("correo"),
+                  idUsuario = perfilJSONObject.getLong("idUsuario"),
+                  createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+                    perfilJSONObject.getString("createdAt")
+                  ),
+                  updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+                    perfilJSONObject.getString("updatedAt")
+                  )
+                )
 
-	private val loadDataRunnable = object : Runnable {
-		override fun run() {
-			getChats()
-			getPerfiles()
-			getMessagesChats()
-			handler.postDelayed(this, 1000 * 5) // Vuelve a ejecutar después de N segundos
-		}
-	}
+                db?.perfilDao()?.upsert(perfilEntity)
+              }
+            }
+          }
+        }
+      }
+    } catch (e: Exception) {
+    }
+  }
+
+  private fun loadData() {
+    getChats()
+    getPerfiles()
+    getMessagesChats()
+  }
+
+  private val loadDataRunnable = object : Runnable {
+    override fun run() {
+      loadData()
+      for (observer in clientObserversWebsocket) {
+        callBackgroundService {
+          observer.observeNewMessage()
+        }
+      }
+      handler.postDelayed(this, 1000 * 60) // Vuelve a ejecutar después de N segundos
+    }
+  }
+
+  private fun callBackgroundService(callback: () -> Unit) {
+    (object : Thread() {
+      override fun run() {
+        callback()
+      }
+    }).start()
+  }
 
 }

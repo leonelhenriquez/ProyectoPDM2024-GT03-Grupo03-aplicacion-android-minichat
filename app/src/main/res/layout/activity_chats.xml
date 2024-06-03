@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				xmlns:app="http://schemas.android.com/apk/res-auto"
-				xmlns:tools="http://schemas.android.com/tools"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				tools:context=".ChatsActivity">
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".ChatsActivity">
 
 	<androidx.coordinatorlayout.widget.CoordinatorLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
 
 		<com.google.android.material.appbar.AppBarLayout
-						android:id="@+id/appbar"
+				android:id="@+id/appbar"
 
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
 			<com.google.android.material.appbar.CollapsingToolbarLayout
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							app:contentScrim="?attr/colorPrimary"
-							app:layout_scrollFlags="scroll|exitUntilCollapsed"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					app:contentScrim="?attr/colorPrimary"
+					app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
-							app:toolbarId="@+id/toolbar">
+					app:toolbarId="@+id/toolbar">
 
 				<androidx.appcompat.widget.Toolbar
-								android:id="@+id/toolbar"
-								style="@style/Widget.Material3.Toolbar"
-								android:layout_width="match_parent"
-								android:layout_height="?attr/actionBarSize"
-								android:theme="@style/Base.Theme.MiniChat.Toolbar">
+						android:id="@+id/toolbar"
+						style="@style/Widget.Material3.Toolbar"
+						android:layout_width="match_parent"
+						android:layout_height="?attr/actionBarSize"
+						android:theme="@style/Base.Theme.MiniChat.Toolbar">
 
 					<com.makeramen.roundedimageview.RoundedImageView
-									android:id="@+id/imageView2"
-									android:layout_width="42dp"
-									android:layout_height="42dp"
-									android:layout_marginRight="16dp"
-									android:scaleType="fitCenter"
-									android:src="@drawable/default_avatar"
-									app:riv_border_color="#333333"
-									app:riv_border_width="0dip"
-									app:riv_corner_radius="42dip"
-									app:riv_mutate_background="true"
-									app:riv_oval="true"
-									app:riv_tile_mode="clamp" />
+							android:id="@+id/imageView2"
+							android:layout_width="42dp"
+							android:layout_height="42dp"
+							android:layout_marginRight="16dp"
+							android:scaleType="fitCenter"
+							android:src="@drawable/default_avatar"
+							app:riv_border_color="#333333"
+							app:riv_border_width="0dip"
+							app:riv_corner_radius="42dip"
+							app:riv_mutate_background="true"
+							app:riv_oval="true"
+							app:riv_tile_mode="clamp" />
 
 
 					<LinearLayout
-									android:layout_width="match_parent"
-									android:layout_height="wrap_content"
-									android:gravity="center|start"
-									android:orientation="vertical">
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center|start"
+							android:orientation="vertical">
 
 						<TextView
-										android:id="@+id/textViewNameProfile"
-										android:layout_width="wrap_content"
-										android:layout_height="20sp"
-										android:height="18dp"
-										android:elegantTextHeight="false"
-										android:fontFamily="@font/poppins_bold"
-										android:gravity="center"
-										android:text="Name"
-										android:textSize="16sp"
-										android:textStyle="bold" />
+								android:id="@+id/textViewNameProfile"
+								android:layout_width="wrap_content"
+								android:layout_height="20sp"
+								android:height="18dp"
+								android:elegantTextHeight="false"
+								android:fontFamily="@font/poppins_bold"
+								android:gravity="center"
+								android:text="Name"
+								android:textSize="16sp"
+								android:textStyle="bold" />
 
 						<TextView
-										android:id="@+id/textViewChatTitle"
-										android:layout_width="wrap_content"
-										android:layout_height="18dp"
-										android:height="16dp"
-										android:elegantTextHeight="false"
-										android:fontFamily="@font/poppins_bold"
-										android:gravity="center"
-										android:text="@string/chats" />
+								android:id="@+id/textViewChatTitle"
+								android:layout_width="wrap_content"
+								android:layout_height="18dp"
+								android:height="16dp"
+								android:elegantTextHeight="false"
+								android:fontFamily="@font/poppins_bold"
+								android:gravity="center"
+								android:text="@string/chats" />
 					</LinearLayout>
 
 
@@ -83,87 +83,87 @@
 		</com.google.android.material.appbar.AppBarLayout>
 
 		<androidx.core.widget.NestedScrollView
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
 
 
-						app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+				app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
-							android:layout_width="match_parent"
-							android:layout_height="match_parent">
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 
 				<LinearLayout
-								android:layout_width="match_parent"
-								android:layout_height="wrap_content"
-								android:orientation="vertical"
-								app:layout_constraintBottom_toBottomOf="parent"
-								app:layout_constraintEnd_toEndOf="parent"
-								app:layout_constraintStart_toStartOf="parent"
-								app:layout_constraintTop_toTopOf="parent">
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent">
 
 					<LinearLayout
-									android:layout_width="match_parent"
-									android:layout_height="match_parent"
-									android:gravity="center|center_vertical"
-									android:orientation="horizontal"
-									android:paddingLeft="16dp"
-									android:paddingTop="8dp"
-									android:paddingRight="16dp"
-									android:paddingBottom="8dp">
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:gravity="center|center_vertical"
+							android:orientation="horizontal"
+							android:paddingLeft="16dp"
+							android:paddingTop="8dp"
+							android:paddingRight="16dp"
+							android:paddingBottom="8dp">
 
 						<com.google.android.material.textfield.TextInputLayout
-										android:layout_width="match_parent"
-										android:layout_height="39dp"
-										android:layout_weight="1">
+								android:layout_width="match_parent"
+								android:layout_height="39dp"
+								android:layout_weight="1">
 
 							<com.google.android.material.textfield.TextInputEditText
-											android:layout_width="match_parent"
-											android:layout_height="wrap_content"
-											android:hint="Buscar chat..." />
+									android:layout_width="match_parent"
+									android:layout_height="wrap_content"
+									android:hint="Buscar chat..." />
 
 						</com.google.android.material.textfield.TextInputLayout>
 
 						<ImageButton
-										android:id="@+id/imageButton"
-										android:layout_width="24dp"
-										android:layout_height="24dp"
-										android:layout_marginLeft="8dp"
-										android:layout_weight="0"
-										android:background="@android:color/transparent"
-										android:minWidth="39dp"
-										android:minHeight="39dp"
-										app:srcCompat="@drawable/search_24p" />
+								android:id="@+id/imageButton"
+								android:layout_width="24dp"
+								android:layout_height="24dp"
+								android:layout_marginLeft="8dp"
+								android:layout_weight="0"
+								android:background="@android:color/transparent"
+								android:minWidth="39dp"
+								android:minHeight="39dp"
+								app:srcCompat="@drawable/search_24p" />
 
 					</LinearLayout>
 
 					<LinearLayout
-									android:layout_width="match_parent"
-									android:layout_height="match_parent"
-									android:gravity="center|center_vertical"
-									android:orientation="horizontal"
-									android:paddingLeft="16dp"
-									android:paddingTop="8dp"
-									android:paddingRight="16dp"
-									android:paddingBottom="8dp">
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:gravity="center|center_vertical"
+							android:orientation="horizontal"
+							android:paddingLeft="16dp"
+							android:paddingTop="8dp"
+							android:paddingRight="16dp"
+							android:paddingBottom="8dp">
 
 						<TextView
-										android:id="@+id/txtTrayRequest"
-										android:layout_width="wrap_content"
-										android:layout_height="wrap_content"
-										android:layout_weight="1"
-										android:text="Bandeja de solicitdes (10)"
-										android:textAlignment="textEnd"
-										android:textColor="@color/primary_app"
-										android:textStyle="bold" />
+								android:id="@+id/txtTrayRequest"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_weight="1"
+								android:text="Bandeja de solicitdes (10)"
+								android:textAlignment="textEnd"
+								android:textColor="@color/primary_app"
+								android:textStyle="bold" />
 					</LinearLayout>
 
 					<androidx.recyclerview.widget.RecyclerView
-									android:id="@+id/recyclerChats"
-									android:layout_width="match_parent"
-									android:layout_height="match_parent"
-									android:layout_marginTop="0sp"
-									tools:listitem="@layout/item_chat" />
+							android:id="@+id/recyclerChats"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:layout_marginTop="0sp"
+							tools:listitem="@layout/item_chat" />
 
 				</LinearLayout>
 			</androidx.constraintlayout.widget.ConstraintLayout>

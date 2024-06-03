@@ -1,13 +1,8 @@
 package com.example.minichat.services
 
-interface ChatServiceInterface {
+import com.example.minichat.entities.MensajeEntity
 
-	fun sendMessage(message: String)
-
-	fun observeNewMessage()
-
-	fun observeNewReaction()
-
-	fun observeJoinedRoom()
+interface ChatServiceInterface : ObserversWebsocket {
+  fun sendMessage(message: MensajeEntity)
 
 }
