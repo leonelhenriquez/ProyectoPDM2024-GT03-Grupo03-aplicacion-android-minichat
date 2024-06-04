@@ -9,7 +9,7 @@ import com.example.minichat.ChatActivity
 import com.example.minichat.databinding.ItemChatBinding
 import com.example.minichat.entities.ChatWithData
 import com.example.minichat.entities.LoginUsuarioData
-import com.example.minichat.entities.UsuarioEntity
+import com.example.minichat.entities.UsuarioPerfil
 
 class ChatsViewHolder(
   view: View
@@ -19,11 +19,11 @@ class ChatsViewHolder(
 
   fun render(chatdata: ChatWithData, loginUsuario: LoginUsuarioData?) {
 
-    var usuario: UsuarioEntity? = null
+    var usuarioPerfil: UsuarioPerfil? = null
     for (usuarioChat in chatdata.usuariosChatList) {
-      if (usuarioChat.id != loginUsuario?.usuarioPerfil?.usuario?.id) {
-        usuario = usuarioChat
-        binding.textViewNameChat.text = usuarioChat.nombre
+      if (usuarioChat.usuario.id != loginUsuario?.usuarioPerfil?.usuario?.id) {
+        usuarioPerfil = usuarioChat
+        binding.textViewNameChat.text = usuarioPerfil.perfil?.nombre ?: ""
       }
     }
 
@@ -42,7 +42,7 @@ class ChatsViewHolder(
     binding.root.setOnClickListener {
       val intent = Intent(binding.root.context, ChatActivity::class.java)
       intent.putExtra("chatId", chatdata.chat.id)
-      intent.putExtra("usuarioId", usuario?.id)
+      intent.putExtra("usuarioId", usuarioPerfil?.usuario?.id)
       binding.root.context.startActivity(intent)
     }
   }

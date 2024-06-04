@@ -1,5 +1,6 @@
 package com.example.minichat.services
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
@@ -9,6 +10,7 @@ import android.os.Looper
 import android.util.Log
 import com.example.minichat.database.AppDatabase
 import com.example.minichat.datasource.RestDataSourceChat
+import com.example.minichat.datasource.RestDataSourceFriendRequest
 import com.example.minichat.datasource.RestDataSourcePerfil
 import com.example.minichat.entities.ChatEntity
 import com.example.minichat.entities.MensajeEntity
@@ -28,7 +30,7 @@ class ChatService : Service(), ChatServiceInterface {
 
   private var chatServiceSocketIo: Socket? = null
 
-  private var db: AppDatabase? = null
+  private var db: AppDatabase = AppDatabase.getDatabase(this)
 
   private val handler = Handler(Looper.getMainLooper())
 
@@ -39,12 +41,12 @@ class ChatService : Service(), ChatServiceInterface {
   inner class ChatServiceBinder : Binder() {
     fun getService(): ChatService = this@ChatService
 
-    fun setObserversWebsocket(observersWebsocket: ObserversWebsocket) {
-      clientObserversWebsocket.add(observersWebsocket)
+    fun setObserversWebsocket(observersWebsocketImpl: ObserversWebsocketImpl) {
+      clientObserversWebsocket.add(observersWebsocketImpl)
     }
 
-    fun removeObserversWebsocket(observersWebsocket: ObserversWebsocket) {
-      clientObserversWebsocket.remove(observersWebsocket)
+    fun removeObserversWebsocket(observersWebsocketImpl: ObserversWebsocketImpl) {
+      clientObserversWebsocket.remove(observersWebsocketImpl)
     }
   }
 
@@ -61,6 +63,7 @@ class ChatService : Service(), ChatServiceInterface {
     this.getPerfiles()
     this.getMessagesChats()
     this.wsIniSocketIo()
+    this.countFriendRequests()
     handler.post(loadDataRunnable)
 
     try {
@@ -70,6 +73,7 @@ class ChatService : Service(), ChatServiceInterface {
         }
       }
     } catch (e: Exception) {
+      e.printStackTrace()
       Log.e("ChatService[onCreate]", e.toString())
     }
   }
@@ -86,7 +90,7 @@ class ChatService : Service(), ChatServiceInterface {
   }
 
   private fun wsIniSocketIo() {
-    val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
+    val loginUsuario = this.db.loginUsuarioDao().getLoginUsuario()
 
     val okHttpClient = OkHttpClient
       .Builder()
@@ -128,9 +132,18 @@ class ChatService : Service(), ChatServiceInterface {
     this.chatServiceSocketIo?.emit("send-message", messageJson)
 
     this.loadData()
-
   }
 
+  override fun sendFriendRequest(idUsuario: Long, idContacto: Long) {
+    val friendRequestObject = JSONObject()
+    friendRequestObject.put("idUsuario", idUsuario)
+    friendRequestObject.put("idContacto", idContacto)
+
+    val friendRequestJson = friendRequestObject.toString()
+    this.chatServiceSocketIo?.emit("send-friend-request", friendRequestJson)
+  }
+
+  @SuppressLint("SimpleDateFormat")
   override fun observeNewMessage() {
     this.chatServiceSocketIo?.on("new-message") { args ->
 
@@ -167,8 +180,8 @@ class ChatService : Service(), ChatServiceInterface {
           nombre = messageJsonObject.getString("usuario.nombre"),
         )
 
-        db?.usuarioDao()?.upsert(usuarioEntity)
-        db?.mensajeDao()?.upsert(messageEntity)
+        db.usuarioDao().upsert(usuarioEntity)
+        db.mensajeDao().upsert(messageEntity)
       } catch (e: Exception) {
         e.printStackTrace()
         Log.e("ChatService[observeNewMessage]", e.toString())
@@ -199,6 +212,7 @@ class ChatService : Service(), ChatServiceInterface {
           }
         }
       } catch (e: Exception) {
+        e.printStackTrace()
         Log.e("ChatService[observeNewReaction]", e.toString())
       }
     }
@@ -215,13 +229,47 @@ class ChatService : Service(), ChatServiceInterface {
           }
         }
       } catch (e: Exception) {
+        e.printStackTrace()
         Log.e("ChatService[observeJoinedRoom]", e.toString())
       }
     }
   }
 
+  override fun observeNewFriendRequest(count: Int) {
+    try {
+      for (observer in clientObserversWebsocket) {
+        callBackgroundService {
+          observer.observeNewFriendRequest(count)
+        }
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+      Log.e("ChatService[observeNewFriendRequest]", e.toString())
+    }
+  }
+
+
+  fun observeNewFriendRequest() {
+    val loginUsuario = this.db.loginUsuarioDao().getLoginUsuario()
+    this.chatServiceSocketIo?.on("new-friend-request-${loginUsuario?.loginUsuarioEntity?.idUsuario}") { args ->
+      try {
+        Log.v("ChatService[observeNewFriendRequest]", args[0].toString())
+
+        for (observer in clientObserversWebsocket) {
+          callBackgroundService {
+            countFriendRequests()
+          }
+        }
+      } catch (e: Exception) {
+        e.printStackTrace()
+        Log.e("ChatService[observeNewFriendRequest]", e.toString())
+      }
+    }
+  }
+
+  @SuppressLint("SimpleDateFormat")
   private fun getChats() {
-    val loginUsuario = this.db?.loginUsuarioDao()?.getLoginUsuario()
+    val loginUsuario = this.db.loginUsuarioDao().getLoginUsuario()
     RestDataSourceChat.chats(
       this,
       loginUsuario?.loginUsuarioEntity?.idUsuario ?: 0,
@@ -241,8 +289,9 @@ class ChatService : Service(), ChatServiceInterface {
             id = tipoChatJSONObject.getLong("id"),
             nombre = tipoChatJSONObject.getString("nombre")
           )
-          db?.tipoChatDao()?.upsert(tipoChatEntity)
+          db.tipoChatDao().upsert(tipoChatEntity)
         } catch (e: Exception) {
+          e.printStackTrace()
         }
 
         val chatEntity = ChatEntity(
@@ -252,7 +301,7 @@ class ChatService : Service(), ChatServiceInterface {
           fechaCreacion = null,
           updatedAt = null
         )
-        db?.chatDao()?.upsert(chatEntity)
+        db.chatDao().upsert(chatEntity)
 
         val miembrosJsonArrayObject = jsonObject.getJSONArray("miembros")
         for (j in 0 until miembrosJsonArrayObject.length()) {
@@ -266,7 +315,7 @@ class ChatService : Service(), ChatServiceInterface {
           )
 
           val userChat =
-            db?.usuarioChatDao()?.getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
+            db.usuarioChatDao().getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
 
           var usuarioChatEntity: UsuarioChatEntity? = null
           if (userChat?.id != null) {
@@ -288,11 +337,11 @@ class ChatService : Service(), ChatServiceInterface {
             )
           }
 
-          db?.usuarioDao()?.upsert(usuarioEntity)
+          db.usuarioDao().upsert(usuarioEntity)
           if (usuarioChatEntity.id != null) {
-            db?.usuarioChatDao()?.upsert(usuarioChatEntity)
+            db.usuarioChatDao().upsert(usuarioChatEntity)
           } else {
-            db?.usuarioChatDao()?.insert(usuarioChatEntity)
+            db.usuarioChatDao().insert(usuarioChatEntity)
           }
         }
 
@@ -312,7 +361,7 @@ class ChatService : Service(), ChatServiceInterface {
               updatedAt = null
             )
 
-            db?.preferenciaChatDao()?.upsert(preferenciaChatEntity)
+            db.preferenciaChatDao().upsert(preferenciaChatEntity)
           } catch (e: Exception) {
             Log.e("ChatService[getChats][preferenciaChatEntity]", e.toString())
           }
@@ -334,17 +383,18 @@ class ChatService : Service(), ChatServiceInterface {
               mensajeJsonObject.getString("updatedAt")
             )
           )
-          db?.mensajeDao()?.upsert(mensajeEntity)
+          db.mensajeDao().upsert(mensajeEntity)
         }
       }
     }
   }
 
+  @SuppressLint("SimpleDateFormat")
   fun getMessagesChats() {
     try {
 
-      val chats = db?.chatDao()?.getChats()
-      val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+      val chats = db.chatDao().getChats()
+      val loginUsuario = db.loginUsuarioDao().getLoginUsuario()
 
       if (chats != null) {
         for (chat in chats) {
@@ -369,7 +419,7 @@ class ChatService : Service(), ChatServiceInterface {
                   jsonObject.getString("updatedAt")
                 )
               )
-              db?.mensajeDao()?.upsert(mensajeEntity)
+              db.mensajeDao().upsert(mensajeEntity)
 
               for (observer in clientObserversWebsocket) {
                 callBackgroundService {
@@ -381,13 +431,14 @@ class ChatService : Service(), ChatServiceInterface {
         }
       }
     } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
   fun getPerfiles() {
     try {
-      val usuarios = db?.usuarioDao()?.getUsuarios()
-      val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+      val usuarios = db.usuarioDao().getUsuarios()
+      val loginUsuario = db.loginUsuarioDao().getLoginUsuario()
 
       if (usuarios != null) {
         for (usuario in usuarios) {
@@ -398,7 +449,9 @@ class ChatService : Service(), ChatServiceInterface {
               loginUsuario?.loginUsuarioEntity?.token
             ) { response ->
 
-              if (!response.isEmpty()) {
+              response.let {
+
+                Log.v("ChatService[getPerfiles]", response)
 
                 val perfilJSONObject = JSONObject(response)
 
@@ -417,20 +470,22 @@ class ChatService : Service(), ChatServiceInterface {
                   )
                 )
 
-                db?.perfilDao()?.upsert(perfilEntity)
+                db.perfilDao().upsert(perfilEntity)
               }
             }
           }
         }
       }
     } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
-  private fun loadData() {
+  fun loadData() {
     getChats()
     getPerfiles()
     getMessagesChats()
+    countFriendRequests()
   }
 
   private val loadDataRunnable = object : Runnable {
@@ -451,6 +506,23 @@ class ChatService : Service(), ChatServiceInterface {
         callback()
       }
     }).start()
+  }
+
+  fun countFriendRequests() {
+    val userLogin = db.loginUsuarioDao().getLoginUsuario()
+    RestDataSourceFriendRequest.countFriendRequests(
+      userLogin?.usuarioPerfil?.usuario?.id,
+      userLogin?.loginUsuarioEntity?.token,
+      this
+    ) { countRequests ->
+      if (countRequests != null && countRequests >= 0) {
+        for (observer in clientObserversWebsocket) {
+          callBackgroundService {
+            observer.observeNewFriendRequest(countRequests)
+          }
+        }
+      }
+    }
   }
 
 }

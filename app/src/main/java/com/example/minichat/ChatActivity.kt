@@ -17,7 +17,7 @@ import com.example.minichat.entities.ChatEntity
 import com.example.minichat.entities.MensajeEntity
 import com.example.minichat.entities.UsuarioPerfil
 import com.example.minichat.services.ChatService
-import com.example.minichat.services.ObserversWebsocket
+import com.example.minichat.services.ObserversWebsocketImpl
 
 class ChatActivity : AppCompatActivity() {
   private lateinit var binding: ActivityChatBinding
@@ -29,7 +29,8 @@ class ChatActivity : AppCompatActivity() {
   private var chatService: ChatService? = null
   private var loginUsuarioData = db.loginUsuarioDao().getLoginUsuario()
 
-  private val observerWebsocket = object : ObserversWebsocket {
+  private val observerWebsocket = object : ObserversWebsocketImpl() {
+
     override fun observeNewMessage() {
       runOnUiThread {
         initRecyclerView()
@@ -92,6 +93,10 @@ class ChatActivity : AppCompatActivity() {
     binding.buttonSendMessage.setOnClickListener {
       sendMessage()
     }
+
+    val loginUsuarioData = db.loginUsuarioDao().getLoginUsuario()
+    val dispositivoVinculado = db.dispositivoVinculadoDao()
+      .getDispositivoVinculado(loginUsuarioData?.usuarioPerfil?.usuario?.id!!)
 
     /*val toolbar : Toolbar = findViewById(R.id.toolbarChat)
     setSupportActionBar(toolbar)

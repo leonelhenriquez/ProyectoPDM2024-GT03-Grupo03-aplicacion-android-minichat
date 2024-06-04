@@ -10,7 +10,7 @@
         android:paddingBottom="8dp">
 
   <com.makeramen.roundedimageview.RoundedImageView
-          android:id="@+id/imageViewProfileFriendRequest"
+          android:id="@+id/imageViewProfilePictureUserLeft"
           android:layout_width="32dp"
           android:layout_height="32dp"
           android:layout_marginRight="8dp"
@@ -31,7 +31,7 @@
           android:orientation="vertical">
 
     <TextView
-            android:id="@+id/textViewNameFriendRequest"
+            android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -39,7 +39,7 @@
             android:textStyle="bold" />
 
     <TextView
-            android:id="@+id/textViewUsernameFriendRequest"
+            android:id="@+id/textViewUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -48,12 +48,12 @@
   </LinearLayout>
 
   <Button
-          android:id="@+id/buttonAcceptFriendRequest"
+          android:id="@+id/buttonSendRequest"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_weight="0"
           android:backgroundTint="@color/md_theme_dark_onTertiary"
-          android:text="Aceptar"
+          android:text="Enviar"
           android:textSize="20sp" />
 
 </LinearLayout>

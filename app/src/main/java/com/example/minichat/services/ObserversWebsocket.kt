@@ -6,4 +6,6 @@ interface ObserversWebsocket {
   fun observeNewReaction()
 
   fun observeJoinedRoom()
+
+  fun observeNewFriendRequest(count: Int)
 }

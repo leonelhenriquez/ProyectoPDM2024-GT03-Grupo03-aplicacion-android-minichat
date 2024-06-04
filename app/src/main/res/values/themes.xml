@@ -1,80 +1,105 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MiniChat" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/primary_app</item> -->
-        <item name="backgroundColor">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-
-        <!--- Secondary button -->
-        <!-- <item name="colorSecondary">@color/secondary_app</item> -->
-
-        <!--- Set Style Primary button -->
-        <item name="buttonStyle">@style/Base.Theme.MiniChat.PrimaryButton</item>
-
-        <!--- Input style -->
-        <!--<item name="editTextStyle">@style/Base.Theme.MiniChat.EditText</item>-->
-
-        <!-- Set Style Toolbar -->
-        <item name="toolbarStyle">@style/Base.Theme.MiniChat.Toolbar</item>
-
-
-        <item name="colorPrimary">@color/primary_app</item>
-        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/md_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/md_theme_light_error</item>
-        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
-        <item name="colorOnError">@color/md_theme_light_onError</item>
-        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_light_background</item>
-        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
-        <item name="colorSurface">@color/md_theme_light_surface</item>
-        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
-        <item name="colorOutline">@color/md_theme_light_outline</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
-
-        <item name="fontFamily">@font/poppins</item>
-
-    </style>
-
-<!--- Primary button -->
-    <style name="Base.Theme.MiniChat.PrimaryButton" parent="Widget.Material3.Button">
-        <item name="colorPrimary">@color/primary_app</item>
-        <item name="android:textColor">@color/red_app</item>
-        <item name="android:theme">@style/Base.Theme.MiniChat.SecondaryButton</item>
-    </style>
+<resources>
+  <!-- Base application theme. -->
+  <style name="Base.Theme.MiniChat" parent="Theme.Material3.Light.NoActionBar">
+    <!-- Customize your light theme here. -->
+    <!-- <item name="colorPrimary">@color/primary_app</item> -->
+    <item name="backgroundColor">@color/white</item>
+    <item name="android:windowBackground">@color/white</item>
 
     <!--- Secondary button -->
-    <style name="Base.Theme.MiniChat.SecondaryButton" parent="Widget.Material3.Button">
-        <item name="colorPrimary">@color/secondary_app</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:theme">@style/Base.Theme.MiniChat.SecondaryButton</item>
-    </style>
+    <!-- <item name="colorSecondary">@color/secondary_app</item> -->
+
+    <!--- Set Style Primary button -->
+    <item name="buttonStyle">@style/Base.Theme.MiniChat.PrimaryButton</item>
 
     <!--- Input style -->
-    <style name="Base.Theme.MiniChat.EditText" parent="Widget.Material3.TextInputEditText.FilledBox.Dense">
-        <item name="colorPrimary">@color/primary_app</item>
-        <item name="android:textColor">@color/black</item>
-        <!--<item name="android:theme">@style/Base.Theme.MiniChat.EditText</item> -->
-    </style>
-    <style name="Theme.MiniChat" parent="Base.Theme.MiniChat" />
+    <!--<item name="editTextStyle">@style/Base.Theme.MiniChat.EditText</item>-->
 
-    <style name="Base.Theme.MiniChat.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:theme">@style/Base.Theme.MiniChat.Toolbar</item>
-    </style>
+    <!-- Set Style Toolbar -->
+    <item name="toolbarStyle">@style/Base.Theme.MiniChat.Toolbar</item>
+    <item name="searchViewStyle">@style/Base.Theme.MiniChat.SearchView</item>
+
+
+    <item name="colorPrimary">@color/primary_app</item>
+    <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+    <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+    <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+    <item name="colorSecondary">@color/md_theme_light_secondary</item>
+    <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+    <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+    <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+    <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+    <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+    <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+    <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+    <item name="colorError">@color/md_theme_light_error</item>
+    <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+    <item name="colorOnError">@color/md_theme_light_onError</item>
+    <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+    <item name="android:colorBackground">@color/md_theme_light_background</item>
+    <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+    <item name="colorSurface">@color/md_theme_light_surface</item>
+    <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+    <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+    <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+    <item name="colorOutline">@color/md_theme_light_outline</item>
+    <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+    <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+    <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+
+    <item name="fontFamily">@font/poppins</item>
+
+  </style>
+
+  <!--- Primary button -->
+  <style name="Base.Theme.MiniChat.PrimaryButton" parent="Widget.Material3.Button">
+    <item name="colorPrimary">@color/primary_app</item>
+    <item name="android:textColor">@color/red_app</item>
+    <item name="android:theme">@style/Base.Theme.MiniChat.SecondaryButton</item>
+  </style>
+
+  <!--- Secondary button -->
+  <style name="Base.Theme.MiniChat.SecondaryButton" parent="Widget.Material3.Button">
+    <item name="colorPrimary">@color/secondary_app</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:theme">@style/Base.Theme.MiniChat.SecondaryButton</item>
+  </style>
+
+  <!--- Input style -->
+  <style name="Base.Theme.MiniChat.EditText" parent="Widget.Material3.TextInputEditText.FilledBox.Dense">
+    <item name="colorPrimary">@color/primary_app</item>
+    <item name="android:textColor">@color/black</item>
+    <!--<item name="android:theme">@style/Base.Theme.MiniChat.EditText</item> -->
+  </style>
+
+  <style name="Theme.MiniChat" parent="Base.Theme.MiniChat" />
+
+  <style name="Base.Theme.MiniChat.Toolbar" parent="Widget.Material3.Toolbar">
+    <item name="colorPrimary">@color/white</item>
+    <item name="android:background">@color/white</item>
+    <item name="elevationOverlayEnabled">true</item>
+    <item name="android:theme">@style/Base.Theme.MiniChat.Toolbar</item>
+    <item name="android:elevation">4dp</item>
+    <item name="android:ambientShadowAlpha">0.01</item>
+    <item name="android:spotShadowAlpha">0.08</item>
+  </style>
+
+  <style name="Base.Theme.MiniChat.SearchView" parent="Widget.Material3.SearchView">
+    <item name="colorPrimary">@color/md_theme_light_tertiaryContainer</item>
+    <item name="android:backgroundTint">@color/md_theme_light_tertiaryContainer</item>
+    <item name="android:theme">@style/Base.Theme.MiniChat.SearchView</item>
+  </style>
+
+  <style name="Base.Theme.Minichat.SearchBar" parent="Widget.Material3.SearchBar">
+    <item name="colorPrimary">@color/md_theme_light_tertiaryContainer</item>
+    <item name="android:background">@color/md_theme_light_tertiaryContainer</item>
+    <item name="android:backgroundTint">@color/md_theme_light_tertiaryContainer</item>
+    <item name="defaultMarginsEnabled">false</item>
+    <item name="android:layout_height">48dp</item>
+    <item name="android:layout_margin">8dp</item>
+    <item name="android:minHeight">48dp</item>
+    <item name="android:maxButtonHeight">48dp</item>
+    <item name="minHeight">48dp</item>
+    <item name="maxButtonHeight">48dp</item>
+  </style>
 </resources>

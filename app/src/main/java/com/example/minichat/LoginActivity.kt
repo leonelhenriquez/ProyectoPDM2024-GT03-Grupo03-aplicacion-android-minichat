@@ -18,158 +18,160 @@ import java.text.SimpleDateFormat
 
 class LoginActivity : AppCompatActivity() {
 
-	private var db: AppDatabase? = null
+  private var db: AppDatabase? = null
 
-	@SuppressLint("SimpleDateFormat")
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_login)
+  @SuppressLint("SimpleDateFormat")
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_login)
 
-		db = AppDatabase.getDatabase(this)
+    db = AppDatabase.getDatabase(this)
 
-		this.checkAccount()
+    this.checkAccount()
 
-		val btnSingIn: Button = findViewById(R.id.btnSignin)
-		val btnSingUp: Button = findViewById(R.id.btnSignup)
+    val btnSingIn: Button = findViewById(R.id.btnSignin)
+    val btnSingUp: Button = findViewById(R.id.btnSignup)
 
-		val textFieldUsername: EditText = findViewById(R.id.inputUsername)
-		val textFieldPassword: EditText = findViewById(R.id.inputPassword)
-
-
-		btnSingIn.setOnClickListener {
-
-			if (textFieldUsername.text.toString().isEmpty() || textFieldPassword.text.toString()
-					.isEmpty()
-			) {
-				Toasty.error(
-					this,
-					"Por favor, rellene todos los campos",
-					Toasty.LENGTH_SHORT,
-					true
-				).show()
-				return@setOnClickListener
-			}
-
-			try {
-				RestDataSourceAuth.auth(
-					textFieldUsername.text.toString(),
-					textFieldPassword.text.toString(),
-					android.os.Build.MODEL,
-					context = this
-				) { response ->
-					val responseBody = response?.body?.string().toString()
+    val textFieldUsername: EditText = findViewById(R.id.inputUsername)
+    val textFieldPassword: EditText = findViewById(R.id.inputPassword)
 
 
-					if (response?.code == 401) {
-						val jsonObject = JSONObject(responseBody)
-						val message = jsonObject.getString("message")
-						Toasty.error(
-							this,
-							message,
-							Toasty.LENGTH_SHORT,
-							true
-						).show()
-						return@auth
-					}
+    btnSingIn.setOnClickListener {
+
+      if (textFieldUsername.text.toString().isEmpty() || textFieldPassword.text.toString()
+          .isEmpty()
+      ) {
+        Toasty.error(
+          this,
+          "Por favor, rellene todos los campos",
+          Toasty.LENGTH_SHORT,
+          true
+        ).show()
+        return@setOnClickListener
+      }
+
+      try {
+        RestDataSourceAuth.auth(
+          textFieldUsername.text.toString(),
+          textFieldPassword.text.toString(),
+          android.os.Build.MODEL,
+          context = this
+        ) { response ->
+          val responseBody = response?.body?.string().toString()
 
 
-					if (response == null || response.code != 201) {
-						Toasty.error(
-							this,
-							"Error al iniciar sesión",
-							Toasty.LENGTH_SHORT,
-							true
-						).show()
-						return@auth
-					}
-					//Log.v("LoginActivity",responseBody)
-
-					val loginUsuarioEntity = this.saveAccount(responseBody)
-
-					if (loginUsuarioEntity.tfaPasado == true) {
-						val intent = Intent(this, ChatsActivity::class.java)
-						startActivity(intent)
-					} else {
-						val intent = Intent(this, A2fActivity::class.java)
-						startActivity(intent)
-					}
-				}
+          if (response?.code == 401) {
+            val jsonObject = JSONObject(responseBody)
+            val message = jsonObject.getString("message")
+            Toasty.error(
+              this,
+              message,
+              Toasty.LENGTH_SHORT,
+              true
+            ).show()
+            return@auth
+          }
 
 
-			} catch (e: Exception) {
-				Log.v("LoginActivity", e.toString())
-				Toasty.error(
-					this,
-					"Error al iniciar sesión",
-					Toasty.LENGTH_SHORT,
-					true
-				).show()
-			}
-		}
+          if (response == null || response.code != 201) {
+            Toasty.error(
+              this,
+              "Error al iniciar sesión",
+              Toasty.LENGTH_SHORT,
+              true
+            ).show()
+            return@auth
+          }
+          //Log.v("LoginActivity",responseBody)
 
-		btnSingUp.setOnClickListener {
-			val intent = Intent(this, RegisterActivity::class.java)
-			startActivity(intent)
-		}
-	}
+          val loginUsuarioEntity = this.saveAccount(responseBody)
 
-	fun checkAccount() {
-		val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
-		if (loginUsuario != null) {
-			if (loginUsuario.loginUsuarioEntity?.tfaPasado == true) {
-				val intent = Intent(this, ChatsActivity::class.java)
-				startActivity(intent)
-			} else {
-				val intent = Intent(this, A2fActivity::class.java)
-				startActivity(intent)
-			}
-		}
-	}
+          if (loginUsuarioEntity.tfaPasado == true) {
+            val intent = Intent(this, ChatsActivity::class.java)
+            startActivity(intent)
+            finish()
+          } else {
+            val intent = Intent(this, A2fActivity::class.java)
+            startActivity(intent)
+          }
+        }
 
-	@SuppressLint("SimpleDateFormat")
-	fun saveAccount(jsonString: String): LoginUsuarioEntity {
-		val jsonObject = JSONObject(jsonString)
-		val usuario = jsonObject.getJSONObject("usuario")
 
-		val usuarioEntity = UsuarioEntity(
-			id = usuario.getLong("id"),
-			nombre = usuario.getString("nombre"),
-			createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(usuario.getString("createdAt")),
-			updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(usuario.getString("updatedAt"))
-		)
+      } catch (e: Exception) {
+        Log.v("LoginActivity", e.toString())
+        Toasty.error(
+          this,
+          "Error al iniciar sesión",
+          Toasty.LENGTH_SHORT,
+          true
+        ).show()
+      }
+    }
 
-		val dispositivoVinculado = jsonObject.getJSONObject("dispositivo")
+    btnSingUp.setOnClickListener {
+      val intent = Intent(this, RegisterActivity::class.java)
+      startActivity(intent)
+    }
+  }
 
-		val dispositivoVinculadoEntity = DispositivoVinculadoEntity(
-			id = dispositivoVinculado.getLong("id"),
-			nombreDispositivo = dispositivoVinculado.getString("nombreDispositivo"),
-			token = dispositivoVinculado.getString("token"),
-			idUsuario = dispositivoVinculado.getLong("idUsuario"),
-			fecha = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-				dispositivoVinculado.getString(
-					"fecha"
-				)
-			),
-			updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
-				dispositivoVinculado.getString(
-					"updatedAt"
-				)
-			)
-		)
+  fun checkAccount() {
+    val loginUsuario = db?.loginUsuarioDao()?.getLoginUsuario()
+    if (loginUsuario != null) {
+      if (loginUsuario.loginUsuarioEntity?.tfaPasado == true) {
+        val intent = Intent(this, ChatsActivity::class.java)
+        startActivity(intent)
+        finish()
+      } else {
+        val intent = Intent(this, A2fActivity::class.java)
+        startActivity(intent)
+      }
+    }
+  }
 
-		val loginUsuarioEntity = LoginUsuarioEntity(
-			idUsuario = usuarioEntity.id,
-			idDispositivo = dispositivoVinculadoEntity.id,
-			token = dispositivoVinculadoEntity.token,
-			tfaRequerido = usuario.getBoolean("tfaRequerido"),
-			tfaPasado = usuario.getBoolean("tfaPasado")
-		)
+  @SuppressLint("SimpleDateFormat")
+  fun saveAccount(jsonString: String): LoginUsuarioEntity {
+    val jsonObject = JSONObject(jsonString)
+    val usuario = jsonObject.getJSONObject("usuario")
 
-		db?.usuarioDao()?.upsert(usuarioEntity)
-		db?.dispositivoVinculadoDao()?.upsert(dispositivoVinculadoEntity)
-		db?.loginUsuarioDao()?.nukeTable()
-		db?.loginUsuarioDao()?.upsert(loginUsuarioEntity)
+    val usuarioEntity = UsuarioEntity(
+      id = usuario.getLong("id"),
+      nombre = usuario.getString("nombre"),
+      createdAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(usuario.getString("createdAt")),
+      updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(usuario.getString("updatedAt"))
+    )
 
-		return loginUsuarioEntity
-	}
+    val dispositivoVinculado = jsonObject.getJSONObject("dispositivo")
+
+    val dispositivoVinculadoEntity = DispositivoVinculadoEntity(
+      id = dispositivoVinculado.getLong("id"),
+      nombreDispositivo = dispositivoVinculado.getString("nombreDispositivo"),
+      token = dispositivoVinculado.getString("token"),
+      idUsuario = dispositivoVinculado.getLong("idUsuario"),
+      fecha = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+        dispositivoVinculado.getString(
+          "fecha"
+        )
+      ),
+      updatedAt = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(
+        dispositivoVinculado.getString(
+          "updatedAt"
+        )
+      )
+    )
+
+    val loginUsuarioEntity = LoginUsuarioEntity(
+      idUsuario = usuarioEntity.id,
+      idDispositivo = dispositivoVinculadoEntity.id,
+      token = dispositivoVinculadoEntity.token,
+      tfaRequerido = usuario.getBoolean("tfaRequerido"),
+      tfaPasado = usuario.getBoolean("tfaPasado")
+    )
+
+    db?.usuarioDao()?.upsert(usuarioEntity)
+    db?.dispositivoVinculadoDao()?.upsert(dispositivoVinculadoEntity)
+    db?.loginUsuarioDao()?.nukeTable()
+    db?.loginUsuarioDao()?.upsert(loginUsuarioEntity)
+
+    return loginUsuarioEntity
+  }
 }

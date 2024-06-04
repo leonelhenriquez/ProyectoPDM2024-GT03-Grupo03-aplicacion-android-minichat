@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+  <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:orientation="horizontal"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView2"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_avatar"
+            app:riv_border_color="#333333"
+            app:riv_border_width="0dip"
+            app:riv_corner_radius="42dip"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            app:riv_tile_mode="clamp" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+      <TextView
+              android:id="@+id/textViewNameProfile"
+              android:layout_width="wrap_content"
+              android:layout_height="24sp"
+              android:height="20dp"
+              android:elegantTextHeight="false"
+              android:fontFamily="@font/poppins_bold"
+              android:gravity="center"
+              android:text="Name"
+              android:textSize="20sp"
+              android:textStyle="bold" />
+
+      <TextView
+              android:id="@+id/textViewChatTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="18dp"
+              android:height="16dp"
+              android:elegantTextHeight="false"
+              android:fontFamily="@font/poppins_bold"
+              android:gravity="center"
+              android:text="@string/chats" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
