@@ -30,8 +30,17 @@
 	<string name="txt_profile">Perfil</string>
 	<string name="txt_request_tray">Bandeja de Solicitudes</string>
 	<string name="txt_changePassword">Cambiar Contraseña</string>
+    <string name="txt_preferences">Preferencias</string>
+    <string name="txt_activeDarkMode">Activar modo oscuro</string>
+    <string name="txt_font">Fuente</string>
+    <string name="txt_notification">Notificaciones</string>
 	<!-- Input -->
 	<string name="input_user">Usuario</string>
 	<string name="input_bio">Biografia</string>
-	<!-- Button -->
+
+    <string-array name="spinner_values">
+        <item>Arial</item>
+        <item>Helvetica</item>
+        <item>Times New Roman</item>
+    </string-array>
 </resources>

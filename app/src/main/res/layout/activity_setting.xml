@@ -1,9 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        android:textAlignment="center"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/txt_settings" />
+
+    <TextView
+        android:id="@+id/txt_preferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:text="@string/txt_preferences"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSetting"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_activeDarkMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_activeDarkMode"
+        android:textSize="15sp"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_preferences"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchDarkMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/txt_preferences"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_font"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_activeDarkMode"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Spinner
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginStart="32sp"
+            android:layout_marginEnd="16sp"
+            android:entries="@array/spinner_values"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_font"
+            app:layout_constraintTop_toBottomOf="@+id/txt_activeDarkMode"/>
+
+    <TextView
+            android:id="@+id/txt_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginStart="16sp"
+            android:text="@string/txt_notification"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@+id/txt_font"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_silenceNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Silenciar Notificaciones"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_notification"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchSilenceNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_notification"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_hourNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horario de notificaciones"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_silenceNotification"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchHourNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_silenceNotification"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+            android:id="@+id/txtDesde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desde"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_hourNotification"/>
+
+    <EditText
+            android:id="@+id/editTextdesde"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="15sp"
+            android:text="8:00 AM"
+            android:layout_marginStart="24sp"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="407dp"
+            app:layout_constraintStart_toEndOf="@+id/txtDesde"
+            app:layout_constraintTop_toBottomOf="@+id/txt_hourNotification" />
+
+    <TextView
+            android:id="@+id/txtHasta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hasta"
+            android:textSize="15sp"
+            android:layout_marginTop="16sp"
+            android:layout_marginEnd="24sp"
+            tools:layout_editor_absoluteX="207dp"
+            tools:layout_editor_absoluteY="420dp"
+            app:layout_constraintEnd_toStartOf="@+id/editTexthasta"
+            app:layout_constraintTop_toBottomOf="@+id/txt_hourNotification" />
+
+    <EditText
+            android:id="@+id/editTexthasta"
+            android:layout_width="89dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:text="8:00 PM"
+            android:textSize="15sp"
+            android:layout_marginEnd="16sp"
+            tools:layout_editor_absoluteX="267dp"
+            tools:layout_editor_absoluteY="404dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_hourNotification" />
+
+    <TextView
+            android:id="@+id/txt_security"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginStart="16sp"
+            android:text="Seguridad"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@+id/txtDesde"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_dobleFactor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doble factor de auntentificación"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_security"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchDobleFactor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_security"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_vinculados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginStart="16sp"
+            android:text="Dispositivos vinculados"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@+id/txt_dobleFactor"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_dispositivo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            tools:text="sm-galaxy"
+            app:layout_constraintTop_toBottomOf="@+id/txt_vinculados"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+            android:id="@+id/txt_dispositivoFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="24sp"
+            android:textColor="@color/md_theme_dark_outline"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_dispositivoDelete"
+            app:layout_constraintTop_toBottomOf="@+id/txt_vinculados" />
+
+    <TextView
+            android:id="@+id/txt_dispositivoDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginEnd="16sp"
+            android:background="@drawable/round_delete_24"
+            android:textSize="15sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_vinculados" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
