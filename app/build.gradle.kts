@@ -62,8 +62,10 @@ dependencies {
 	annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
 	ksp("com.google.dagger:dagger-compiler:2.51.1")
 
+  // Material Switch
+  implementation ("com.google.android.material:material:1.12.0")
 
-	// Room
+    // Room
 	val roomVersion = "2.6.1"
 	implementation("androidx.room:room-runtime:$roomVersion")
 	annotationProcessor("androidx.room:room-compiler:$roomVersion")
