@@ -315,7 +315,8 @@ class ChatService : Service(), ChatServiceInterface {
           )
 
           val userChat =
-            db.usuarioChatDao().getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
+            db.usuarioChatDao()
+              .getUsuarioChat(usuarioEntity.id, jsonObject.getLong("id"))
 
           var usuarioChatEntity: UsuarioChatEntity? = null
           if (userChat?.id != null) {
@@ -349,7 +350,8 @@ class ChatService : Service(), ChatServiceInterface {
         for (j in 0 until preferenciasChatsJsonArrayObject.length()) {
 
           try {
-            val preferenciaChatJsonObject = preferenciasChatsJsonArrayObject.getJSONObject(j)
+            val preferenciaChatJsonObject =
+              preferenciasChatsJsonArrayObject.getJSONObject(j)
 
             val preferenciaChatEntity = PreferenciaChatEntity(
               id = preferenciaChatJsonObject.getLong("id"),
@@ -496,7 +498,7 @@ class ChatService : Service(), ChatServiceInterface {
           observer.observeNewMessage()
         }
       }
-      handler.postDelayed(this, 1000 * 60) // Vuelve a ejecutar después de N segundos
+      handler.postDelayed(this, 1000 * 2) // Vuelve a ejecutar después de N segundos
     }
   }
 
